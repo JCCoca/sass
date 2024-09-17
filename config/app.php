@@ -1,7 +1,7 @@
 <?php 
 
 // Defini o nome da aplicação
-define('APP_NAME', 'SASS');
+define('APP_NAME', 'Sistema de Agendamento de Sala');
 
 // Defini se aplicação está em modo de debug
 define('APP_DEBUG', true);

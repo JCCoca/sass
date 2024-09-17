@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:wght@100..900&display=swap');
 
 pre {
@@ -9,19 +8,31 @@ pre {
     overflow-x: auto;
 }
 
-:root, [data-bs-theme=light], [data-bs-theme=dark] {
-    --bs-body-font-family: 'Inter';
-}
-
 .barlow-condensed-semibold {
     font-family: "Barlow Condensed", sans-serif !important;
     font-weight: 600;
     font-style: italic;
 }
 
-.navbar-logo {
-    width: 250px;
-    height: auto;
+.bg-gradient-senac {
+    background-color: #005497;
+    background-image: linear-gradient(180deg, #005497 10%, #00294A 100%);
+    background-size: cover;
+}
+
+.navbar-title {
+    display: inline-block;
+    padding-top: .3125rem;
+    padding-bottom: .3125rem;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: wrap;
+}
+@media screen and (max-width: 768px) {
+    .navbar-title {
+        font-size: 0.9rem !important;
+    }
 }
 
 .btn-hover-scale {

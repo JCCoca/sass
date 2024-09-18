@@ -24,15 +24,21 @@
                         <li class="nav-item dropdown no-arrow">
                             <a 
                                 class="nav-link dropdown-toggle" 
-                                href="#" id="userDropdown" 
+                                href="#" 
+                                id="userDropdown" 
                                 role="button"
                                 data-toggle="dropdown" 
                                 aria-haspopup="true" 
                                 aria-expanded="false"
                             >
-                                <img src="<?= asset('images/profile_male.svg'); ?>" class="img-profile rounded-circle" >
+                                <?php if (getSession()['auth']['sexo'] === 'Masculino'): ?>
+                                    <img src="<?= asset('images/profile_male.svg'); ?>" class="img-profile rounded-circle" >
+                                <?php else: ?>
+                                    <img src="<?= asset('images/profile_female.svg'); ?>" class="img-profile rounded-circle" >
+                                <?php endif ?>
+                                
                                 <span class="ml-2 d-none d-lg-inline text-gray-600 small">
-                                    Douglas McGee
+                                    <?= abreviarNome(getSession()['auth']['nome']); ?>
                                 </span>
                             </a>
 
@@ -45,7 +51,7 @@
 
                                 <div class="dropdown-divider"></div>
 
-                                <a href="#" class="dropdown-item">
+                                <a href="<?= route('logout'); ?>" class="dropdown-item">
                                     <i class="fa-regular fa-sign-out-alt fa-fw mr-2 text-gray-400"></i>
                                     Sair
                                 </a>

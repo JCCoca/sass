@@ -1,28 +1,54 @@
 <?php layout('auth/header', ['title' => 'Login']); ?>
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-4 col-md-6">
-            <h2 class="text-center mb-4">
-                Login
-            </h2>
+<div class="row justify-content-center">
+    <div class="col-xl-10 col-lg-12 col-md-9">
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                    <div class="col-lg-6">
+                        <div class="p-md-5 p-4">
+                            <div class="d-flex mb-4">
+                                <img 
+                                    src="<?= asset('images/logo_senac.png'); ?>" 
+                                    style="width: 120px; height: auto;" 
+                                    class="mx-auto"
+                                >
+                            </div>
 
-            <?php component('alert-message'); ?>
+                            <h1 class="h4 text-gray-900 text-center mb-4">
+                                Acesso ao Sistema
+                            </h1>
 
-            <form action="<?= route('authenticate'); ?>" method="POST">
-                <div class="mb-3">
-                    <label for="email">E-mail</label>
-                    <input type="email" name="email" id="email" class="form-control" required>
+                            <?php component('alert-message'); ?>
+
+                            <form action="<?= route('authenticate'); ?>" method="POST" class="user">
+                                <div class="form-group">
+                                    <input type="email" name="email" id="email" class="form-control form-control-user" placeholder="E-mail" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="password" name="senha" id="senha" class="form-control form-control-user" placeholder="Senha" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                    Acessar
+                                </button>
+
+                                <hr>
+
+                                <div class="text-center">
+                                    <a href="" class="small">Esqueceu sua senha?</a>
+                                </div>
+                            </form>
+
+                            <div class="text-center small mt-3">
+                                <span>Copyright &copy; Senac/AC <?= date('Y'); ?>. Todos os direitos reservados.</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="senha">Senha</label>
-                    <input type="password" name="senha" id="senha" class="form-control" required>
-                </div>
-
-                <button type="submit" class="btn btn-primary">
-                    <i class="fa-regular fa-arrow-right-to-bracket"></i> Acessar
-                </button>
-            </form>
+            </div>
         </div>
     </div>
 </div>

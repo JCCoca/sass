@@ -17,10 +17,14 @@ if (!empty($email) and !empty($senha)) {
             setSession('auth', [
                 'id' => $usuario->id,
                 'nome' => $usuario->nome,
-                'email' => $usuario->email
+                'email' => $usuario->email,
+                'sexo' => $usuario->sexo,
+                'funcao' => $usuario->funcao,
+                'id_perfil' => $usuario->id_perfil,
+                'id_unidade' => $usuario->id_unidade
             ]);
 
-            redirect('admin');
+            redirect('');
         }
     }
 

@@ -189,3 +189,41 @@ function responseJson(array $content, int $code = 200): void
     http_response_code($code);
     echo json_encode($content);
 }
+
+function sendEmail(array $to, string $subject, string $message): bool 
+{
+    $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+
+    try {
+        $mail->SMTPDebug  = MAIL_DEBUG;
+        $mail->isSMTP();
+        $mail->Host       = MAIL_HOST; 
+        $mail->SMTPAuth   = true;
+        $mail->Username   = MAIL_ADDRESS;
+        $mail->Password   = MAIL_PASSWORD;
+        $mail->SMTPSecure = MAIL_ENCRYPTION;
+        $mail->Port       = MAIL_PORT;
+
+        $mail->setFrom(MAIL_ADDRESS, MAIL_USERNAME);
+
+        for ($i=0; $i < count($to); $i++) {
+            $mail->addAddress($to[$i]['email'], $to[$i]['name']);
+        }
+
+        $mail->isHTML(true);
+        $mail->CharSet = 'UTF-8';
+        $mail->Subject = $subject;
+        $mail->Body    = $message;
+
+        $result = $mail->send();
+
+        if ($result) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    } catch (PHPMailer\PHPMailer\Exception $error) {
+        return false;
+    }
+}

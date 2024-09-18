@@ -14,6 +14,12 @@ pre {
     font-style: italic;
 }
 
+.bg-login-image {
+    background: url('../images/login_image.jpg') !important;
+    background-position: center;
+    background-size: cover;
+}
+
 .bg-gradient-senac {
     background-color: #005497;
     background-image: linear-gradient(180deg, #005497 10%, #00294A 100%);

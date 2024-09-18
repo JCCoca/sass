@@ -3,4 +3,5 @@
 <head>
     <?php @layout('head', ['title' => $title]); ?>
 </head>
-<body>
+<body class="bg-gradient-primary">
+    <div class="container">

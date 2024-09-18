@@ -32,5 +32,6 @@ setlocale(LC_CTYPE, "pt_BR.ISO-8859-1");
 setlocale(LC_NUMERIC, "pt_BR.utf-8");
 
 require_once 'database.php';
+require_once 'mail.php';
 require_once 'route.php';
 require_once 'session.php';

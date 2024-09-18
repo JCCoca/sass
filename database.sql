@@ -71,6 +71,7 @@ CREATE TABLE usuario (
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     senha VARCHAR(255) NOT NULL,
+    sexo ENUM('Masculino', 'Feminino') NOT NULL,
     funcao VARCHAR(100) NOT NULL,
     id_perfil BIGINT(19) NOT NULL,
     FOREIGN KEY (id_perfil) REFERENCES perfil (id),
@@ -5745,13 +5746,15 @@ INSERT INTO usuario (
     nome,
     email,
     senha,
+    sexo, 
     funcao,
     id_perfil,
     id_unidade
 ) VALUE (
     'Administrador',
-    'admin@ac.senac.com',
+    'admin@ac.senac.br',
     '$2y$10$p.vrasqJxu6wtnT68VsfNe0PI3M3bfIJT2m7en/LgQjRQxT3hzTQm',
+    'Masculino',
     'Administrador',
     1,
     1

@@ -1,4 +1,4 @@
-<?php layout('site/header', ['title' => 'Login']); ?>
+<?php layout('auth/header', ['title' => 'Login']); ?>
 
 <div class="container py-5">
     <div class="row justify-content-center">
@@ -10,22 +10,21 @@
             <?php component('alert-message'); ?>
 
             <form action="<?= route('authenticate'); ?>" method="POST">
-                <div class="form-floating mb-3">
-                    <input type="email" name="email" id="email" class="form-control" placeholder="E-mail" required>
+                <div class="mb-3">
                     <label for="email">E-mail</label>
+                    <input type="email" name="email" id="email" class="form-control" required>
                 </div>
-                <div class="form-floating mb-3">
-                    <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required>
+                <div class="mb-3">
                     <label for="senha">Senha</label>
+                    <input type="password" name="senha" id="senha" class="form-control" required>
                 </div>
-                <div class="d-grid gap-3">
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        <i class="fa-regular fa-arrow-right-to-bracket"></i> Acessar
-                    </button>
-                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-regular fa-arrow-right-to-bracket"></i> Acessar
+                </button>
             </form>
         </div>
     </div>
 </div>
 
-<?php layout('site/footer'); ?>
+<?php layout('auth/footer'); ?>

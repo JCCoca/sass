@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="<?= APP_LANGUAGE; ?>">
 <head>
     <?php layout('head', ['title' => '401']); ?>
 </head>
-<body class="bg-primary">
+<body class="bg-gradient-primary">
     <div class="container my-4">
         <div class="text-center text-white mb-4">
             <div class="barlow-condensed-semibold" style="font-size: 6rem; line-height: 1;">

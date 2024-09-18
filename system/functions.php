@@ -143,7 +143,7 @@ function isGuest(): bool
     return !isset($session['auth']) or empty($session['auth']);
 }
 
-function input(string $method = 'GET', string $key, string $type = 'string'): string|int|float|bool
+function input(string $method, string $key, string $type = 'string'): string|int|float|bool
 {
     $input = strtoupper($method) === 'GET' ? $_GET : $_POST;
     $value = trim(strval($input[$key]));
@@ -177,7 +177,7 @@ function input(string $method = 'GET', string $key, string $type = 'string'): st
     }
 }
 
-function hasInput(string $method = 'GET', string $key): bool
+function hasInput(string $method, string $key): bool
 {
     $input = strtoupper($method) === 'GET' ? $_GET : $_POST;
     return isset($input[$key]);

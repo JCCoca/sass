@@ -4,7 +4,9 @@
 
 <div class="card shadow mb-4">
     <div class="card-body">
-        <form action="" method="POST">
+        <?php component('alert-message'); ?>
+
+        <form action="<?= route('alterar-senha'); ?>" method="POST">
             <div class="form-row">
                 <div class="col-md-6">
                     <div class="form-group">

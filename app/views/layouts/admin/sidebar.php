@@ -53,7 +53,7 @@
             </li>
 
             <li class="nav-item <?= $active === 'usuarios' ? 'active' : '' ?>">
-                <a href="" class="nav-link">
+                <a href="<?= route('usuario'); ?>" class="nav-link">
                     <i class="fa-regular fa-users fa-fw"></i>
                     <span>Usuários</span>
                 </a>

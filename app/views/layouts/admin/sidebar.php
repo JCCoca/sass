@@ -12,7 +12,7 @@
 
             <hr class="sidebar-divider my-0">
 
-            <li class="nav-item active">
+            <li class="nav-item <?= $active === 'inicio' ? 'active' : '' ?>">
                 <a href="<?= route(''); ?>" class="nav-link">
                     <i class="fa-regular fa-house fa-fw"></i>
                     <span>Início</span>
@@ -25,7 +25,7 @@
                 Módulos
             </div>
 
-            <li class="nav-item">
+            <li class="nav-item <?= $active === 'agendamento' ? 'active' : '' ?>">
                 <a href="" class="nav-link">
                     <i class="fa-regular fa-calendar-lines-pen fa-fw"></i>
                     <span>Agendamento</span>
@@ -38,21 +38,21 @@
                 Admin
             </div>
 
-            <li class="nav-item">
+            <li class="nav-item <?= $active === 'unidades' ? 'active' : '' ?>">
                 <a href="" class="nav-link">
                     <i class="fa-regular fa-building-flag fa-fw"></i>
                     <span>Unidades</span>
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item <?= $active === 'salas' ? 'active' : '' ?>">
                 <a href="" class="nav-link">
                     <i class="fa-regular fa-screen-users fa-fw"></i>
                     <span>Salas</span>
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item <?= $active === 'usuarios' ? 'active' : '' ?>">
                 <a href="" class="nav-link">
                     <i class="fa-regular fa-users fa-fw"></i>
                     <span>Usuários</span>

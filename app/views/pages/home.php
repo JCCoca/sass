@@ -1,4 +1,4 @@
-<?php layout('admin/header', ['title' => 'Início', 'active' => 'home']); ?>
+<?php layout('admin/header', ['title' => 'Início', 'active' => 'inicio']); ?>
 
 <h3 class="mb-3">Seja Bem-Vindo!</h3>
 

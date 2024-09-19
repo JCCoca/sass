@@ -5,7 +5,7 @@
 </head>
 <body id="page-top">
     <div id="wrapper">
-        <?php layout('admin/sidebar', ['active' => $active]); ?>
+        <?php layout('admin/sidebar', ['active' => $active ?? '']); ?>
 
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
@@ -44,9 +44,9 @@
 
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a href="#" class="dropdown-item">
-                                    <i class="fa-regular fa-user fa-fw mr-2 text-gray-400"></i>
-                                    Perfil
+                                <a href="<?= route('alterar-senha'); ?>" class="dropdown-item">
+                                    <i class="fa-regular fa-key fa-fw mr-2 text-gray-400"></i>
+                                    Alterar Senha
                                 </a>
 
                                 <div class="dropdown-divider"></div>

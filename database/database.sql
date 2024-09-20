@@ -32,7 +32,7 @@ CREATE TABLE sala (
     nome VARCHAR(255) NOT NULL,
     quantidade_maquina INT(9) NOT NULL,
     descricao TEXT NULL, 
-    situacao ENUM('Ativa', 'Inativa') NOT NULL DEFAULT 'Ativa',
+    situacao ENUM('Disponível', 'Indisponível') NOT NULL DEFAULT 'Disponível',
     id_unidade BIGINT(19) NOT NULL,
     FOREIGN KEY (id_unidade) REFERENCES unidade (id),
     criado_em DATETIME NOT NULL DEFAULT NOW(),
@@ -52,7 +52,6 @@ CREATE TABLE disponibilidade_sala (
     FOREIGN KEY (id_sala) REFERENCES sala (id),
     id_dia_semana BIGINT(19) NOT NULL,
     FOREIGN KEY (id_dia_semana) REFERENCES dia_semana (id),
-    dia_semana VARCHAR(60) NOT NULL,
     hora_inicio TIME NOT NULL,
     hora_termino TIME NOT NULL,
     criado_em DATETIME NOT NULL DEFAULT NOW()

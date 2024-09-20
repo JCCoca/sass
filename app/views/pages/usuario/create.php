@@ -4,7 +4,10 @@
 
 <div class="card shadow mb-4">
     <div class="card-body">
-        <?php component('usuario/form'); ?>
+        <?php component('usuario/form', [
+            'action' => route('usuario/cadastrar'),
+            'requiredSenha' => true
+        ]); ?>
     </div>
 </div>
 

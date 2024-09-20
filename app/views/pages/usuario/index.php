@@ -1,12 +1,15 @@
 <?php layout('admin/header', ['title' => 'Usuários', 'active' => 'usuarios']); ?>
 
 <div class="row align-items-center mb-3">
-    <div class="col-md-6">
+    <div class="col-6">
         <h3 class="mb-0">Usuários</h3>
     </div>
-    <div class="col-md-6 text-right">
-        <a href="<?= route('usuario/cadastrar'); ?>" class="btn btn-primary">
-            <i class="fa-regular fa-plus"></i> Adicionar
+    <div class="col-6 text-right">
+        <a href="<?= route('usuario/cadastrar'); ?>" class="btn btn-primary btn-icon-split">
+            <span class="icon">
+                <i class="fa-regular fa-plus"></i> 
+            </span>
+            <span class="text">Adicionar</span>
         </a>
     </div>
 </div>
@@ -76,17 +79,19 @@
                 width: '10%',
                 render(data){
                     return `
-                        <a href="${data.links.edit}" class="btn btn-sm btn-outline-primary">
-                            <i class="fa-regular fa-pencil"></i>
-                        </a>
+                        <div class="d-inline-flex">
+                            <a href="${data.links.edit}" class="btn btn-sm btn-outline-primary  mr-2">
+                                <i class="fa-regular fa-pencil"></i>
+                            </a>
 
-                        <button 
-                            type="button" 
-                            class="btn btn-sm btn-outline-danger"
-                            onclick="confirmDelete('${data.links.delete}')"    
-                        >
-                            <i class="fa-regular fa-trash-alt"></i>
-                        </button>
+                            <button 
+                                type="button" 
+                                class="btn btn-sm btn-outline-danger"
+                                onclick="confirmDelete('${data.links.delete}')"    
+                            >
+                                <i class="fa-regular fa-trash-alt"></i>
+                            </button>
+                        </div>
                     `;
                 }
             }]

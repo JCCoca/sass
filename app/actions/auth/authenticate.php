@@ -4,7 +4,7 @@ $email = input('post', 'email', 'email');
 $senha = input('post', 'senha');
 
 if (!empty($email) and !empty($senha)) {
-    $queryUsuario = $query = DB::query('SELECT * FROM usuario WHERE email = :email', [
+    $queryUsuario = $query = DB::query('SELECT * FROM usuario WHERE email = :email AND excluido_em IS NULL', [
         ':email' => $email
     ]);
 

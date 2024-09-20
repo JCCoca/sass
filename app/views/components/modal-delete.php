@@ -3,24 +3,29 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Atenção</h5>
-                <button 
-                    type="button" 
-                    class="btn-close" 
-                    data-bs-dismiss="modal" 
-                    aria-label="Close"
-                ></button>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <?= $message ?? 'Você tem certeza que deseja excluir?'; ?>
             </div>
             <div class="modal-footer justify-content-start">
                 <form id="form-modal-confirm-delete" method="POST">
-                    <button type="submit" class="btn btn-danger">
-                        <i class="fa-regular fa-trash-alt"></i> Excluir
+                    <button type="submit" class="btn btn-danger btn-icon-split">
+                        <span class="icon">
+                            <i class="fa-regular fa-trash-alt"></i>
+                        </span>
+                        <span class="text">Excluir</span>
                     </button>
                 </form>
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                    <i class="fa-regular fa-xmark"></i> Cancelar
+
+                <button type="button" class="btn btn-secondary btn-icon-split" data-dismiss="modal">
+                    <span class="icon">
+                        <i class="fa-regular fa-xmark"></i>
+                    </span>
+                    <span class="text">Cancelar</span>
                 </button>
             </div>
         </div>
@@ -30,9 +35,9 @@
 <script>
     function confirmDelete(url) {
         let form = document.querySelector('#form-modal-confirm-delete');
-        let modalConfirmDelete = new bootstrap.Modal('#modal-confirm-delete');
+        let modalConfirmDelete = $('#modal-confirm-delete');
 
         form.setAttribute('action', url);
-        modalConfirmDelete.show();
+        modalConfirmDelete.modal('show');
     }
 </script>

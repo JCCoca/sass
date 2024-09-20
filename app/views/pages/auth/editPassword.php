@@ -52,8 +52,11 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">
-                <i class="fa-solid fa-pencil"></i> Alterar Senha
+            <button type="submit" class="btn btn-primary btn-icon-split">
+                <span class="icon">
+                    <i class="fa-solid fa-pencil"></i> 
+                </span>
+                <span class="text">Alterar Senha</span>
             </button>
         </form>
     </div>

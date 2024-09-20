@@ -4,20 +4,20 @@
  *
  * To rebuild or modify this file with the latest versions of the included
  * software please visit:
- *   https://datatables.net/download/#bs5/dt-2.1.5
+ *   https://datatables.net/download/#bs4/dt-2.1.6
  *
  * Included libraries:
- *   DataTables 2.1.5
+ *   DataTables 2.1.6
  */
 
-/*! DataTables 2.1.5
+/*! DataTables 2.1.6
  * © SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     DataTables
  * @description Paginate, search and order HTML tables
- * @version     2.1.5
+ * @version     2.1.6
  * @author      SpryMedia Ltd
  * @contact     www.datatables.net
  * @copyright   SpryMedia Ltd.
@@ -266,6 +266,7 @@
 				"caption",
 				"layout",
 				"orderDescReverse",
+				"typeDetect",
 				[ "iCookieDuration", "iStateDuration" ], // backwards compat
 				[ "oSearch", "oPreviousSearch" ],
 				[ "aoSearchCols", "aoPreSearchCols" ],
@@ -489,7 +490,7 @@
 				} );
 			}
 			else {
-				_fnCallbackFire( oSettings, null, 'i18n', [oSettings]);
+				_fnCallbackFire( oSettings, null, 'i18n', [oSettings], true);
 				_fnInitialise( oSettings );
 			}
 		} );
@@ -538,7 +539,7 @@
 		 *
 		 *  @type string
 		 */
-		builder: "bs5/dt-2.1.5",
+		builder: "bs4/dt-2.1.6",
 	
 	
 		/**
@@ -1229,7 +1230,7 @@
 		// is essential here
 		if ( prop2 !== undefined ) {
 			for ( ; i<ien ; i++ ) {
-				if ( a[ order[i] ][ prop ] ) {
+				if ( a[ order[i] ] && a[ order[i] ][ prop ] ) {
 					out.push( a[ order[i] ][ prop ][ prop2 ] );
 				}
 			}
@@ -2286,12 +2287,6 @@
 		var i, ien, j, jen, k, ken;
 		var col, detectedType, cache;
 	
-		// If SSP then we don't have the full data set, so any type detection would be
-		// unreliable and error prone
-		if (_fnDataSource( settings ) === 'ssp') {
-			return;
-		}
-	
 		// For each column, spin over the data type detection functions, seeing if one matches
 		for ( i=0, ien=columns.length ; i<ien ; i++ ) {
 			col = columns[i];
@@ -2301,6 +2296,12 @@
 				col.sType = col._sManualType;
 			}
 			else if ( ! col.sType ) {
+				// With SSP type detection can be unreliable and error prone, so we provide a way
+				// to turn it off.
+				if (! settings.typeDetect) {
+					return;
+				}
+	
 				for ( j=0, jen=types.length ; j<jen ; j++ ) {
 					var typeDetect = types[j];
 	
@@ -4352,6 +4353,7 @@
 		}
 		settings.aiDisplay = settings.aiDisplayMaster.slice();
 	
+		_fnColumnTypes(settings);
 		_fnDraw( settings, true );
 		_fnInitComplete( settings );
 		_fnProcessingDisplay( settings, false );
@@ -9872,7 +9874,7 @@
 	 *  @type string
 	 *  @default Version number
 	 */
-	DataTable.version = "2.1.5";
+	DataTable.version = "2.1.6";
 	
 	/**
 	 * Private data store, containing all of the settings objects that are
@@ -11972,7 +11974,10 @@
 		colgroup: null,
 	
 		/** Delay loading of data */
-		deferLoading: null
+		deferLoading: null,
+	
+		/** Allow auto type detection */
+		typeDetect: true
 	};
 	
 	/**
@@ -13614,7 +13619,7 @@
 }));
 
 
-/*! DataTables Bootstrap 5 integration
+/*! DataTables Bootstrap 4 integration
  * © SpryMedia Ltd - datatables.net/license
  */
 
@@ -13666,7 +13671,7 @@ var DataTable = $.fn.dataTable;
 
 
 /**
- * DataTables integration for Bootstrap 5.
+ * DataTables integration for Bootstrap 4.
  *
  * This file sets the defaults and adds options to DataTables to style its
  * controls using Bootstrap. See https://datatables.net/manual/styling/bootstrap
@@ -13681,22 +13686,22 @@ $.extend( true, DataTable.defaults, {
 
 /* Default class modification */
 $.extend( true, DataTable.ext.classes, {
-	container: "dt-container dt-bootstrap5",
+	container: "dt-container dt-bootstrap4",
 	search: {
 		input: "form-control form-control-sm"
 	},
 	length: {
-		select: "form-select form-select-sm"
+		select: "custom-select custom-select-sm form-control form-control-sm"
 	},
 	processing: {
 		container: "dt-processing card"
 	},
 	layout: {
-		row: 'row mt-2 justify-content-between',
+		row: 'row justify-content-between',
 		cell: 'd-md-flex justify-content-between align-items-center',
 		tableCell: 'col-12',
-		start: 'dt-layout-start col-md-auto me-auto',
-		end: 'dt-layout-end col-md-auto ms-auto',
+		start: 'dt-layout-start col-md-auto mr-auto',
+		end: 'dt-layout-end col-md-auto ml-auto',
 		full: 'dt-layout-full col-md'
 	}
 } );
@@ -13715,10 +13720,9 @@ DataTable.ext.renderer.pagingButton.bootstrap = function (settings, buttonType, 
 	}
 
 	var li = $('<li>').addClass(btnClasses.join(' '));
-	var a = $('<button>', {
-		'class': 'page-link',
-		role: 'link',
-		type: 'button'
+	var a = $('<a>', {
+		'href': disabled ? null : '#',
+		'class': 'page-link'
 	})
 		.html(content)
 		.appendTo(li);
@@ -13732,41 +13736,6 @@ DataTable.ext.renderer.pagingButton.bootstrap = function (settings, buttonType, 
 DataTable.ext.renderer.pagingContainer.bootstrap = function (settings, buttonEls) {
 	return $('<ul/>').addClass('pagination').append(buttonEls);
 };
-
-// DataTable.ext.renderer.layout.bootstrap = function ( settings, container, items ) {
-// 	var row = $( '<div/>', {
-// 			"class": items.full ?
-// 				'row mt-2 justify-content-md-center' :
-// 				'row mt-2 justify-content-between'
-// 		} )
-// 		.appendTo( container );
-
-// 	$.each( items, function (key, val) {
-// 		var klass;
-// 		var cellClass = '';
-
-// 		// Apply start / end (left / right when ltr) margins
-// 		if (val.table) {
-// 			klass = 'col-12';
-// 		}
-// 		else if (key === 'start') {
-// 			klass = '' + cellClass;
-// 		}
-// 		else if (key === 'end') {
-// 			klass = '' + cellClass;
-// 		}
-// 		else {
-// 			klass = ' ' + cellClass;
-// 		}
-
-// 		$( '<div/>', {
-// 				id: val.id || null,
-// 				"class": klass + ' ' + (val.className || '')
-// 			} )
-// 			.append( val.contents )
-// 			.appendTo( row );
-// 	} );
-// };
 
 
 return DataTable;

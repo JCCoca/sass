@@ -10,6 +10,7 @@ Route::setGet('alterar-senha', pages('auth/editPassword'), 'auth');
 Route::setPost('alterar-senha', actions('auth/changePassword'), 'auth');
 
 Route::setGet('usuario', pages('usuario/index'), 'auth');
+Route::setGet('usuario/listar', actions('usuario/list'), 'auth');
 Route::setGet('usuario/cadastrar', pages('usuario/create'), 'auth');
 Route::setPost('usuario/cadastrar', actions('usuario/store'), 'auth');
 Route::setGet('usuario/editar', pages('usuario/edit'), 'auth');

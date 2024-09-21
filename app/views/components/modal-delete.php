@@ -37,7 +37,7 @@
         let form = $('#form-modal-confirm-delete');
         let modalConfirmDelete = $('#modal-confirm-delete');
 
-        form.setAttribute('action', url);
+        form.attr('action', url);
         modalConfirmDelete.modal('show');
     }
 </script>

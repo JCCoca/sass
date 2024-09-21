@@ -143,37 +143,42 @@ function isGuest(): bool
     return !isset($session['auth']) or empty($session['auth']);
 }
 
-function input(string $method, string $key, string $type = 'string'): string|int|float|bool
+function input(string $method, string $key, string $type = 'string'): string|int|float|bool|null
 {
     $input = strtoupper($method) === 'GET' ? $_GET : $_POST;
-    $value = trim(strval($input[$key]));
 
-    switch (strtolower($type)) {
-        case 'string':
-            return htmlspecialchars(strip_tags($value), ENT_QUOTES, 'UTF-8');
-        case 'int':
-        case 'integer':
-            return intval(filter_var($value, FILTER_VALIDATE_INT, [
-                'options' => [
-                    'min_range' => PHP_INT_MIN,
-                    'max_range' => PHP_INT_MAX
-                ]
-            ]));
-        case 'double':
-        case 'float':
-            return floatval(filter_var($value, FILTER_VALIDATE_FLOAT));
-        case 'money':
-            return floatval(filter_var(str_replace(',', '.', str_replace('.', '', $value)), FILTER_VALIDATE_FLOAT));
-        case 'email':
-            return filter_var($value, FILTER_VALIDATE_EMAIL);
-        case 'url':
-            return filter_var($value, FILTER_VALIDATE_URL);
-        case 'bool':
-        case 'boolean':
-            return boolval(filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE));
-        case 'default':
-        default:
-            return $value;
+    if (isset($input[$key])) {
+        $value = trim($input[$key]);
+
+        switch (strtolower($type)) {
+            case 'string':
+                return htmlspecialchars(strip_tags($value), ENT_QUOTES, 'UTF-8');
+            case 'int':
+            case 'integer':
+                return intval(filter_var($value, FILTER_VALIDATE_INT, [
+                    'options' => [
+                        'min_range' => PHP_INT_MIN,
+                        'max_range' => PHP_INT_MAX
+                    ]
+                ]));
+            case 'double':
+            case 'float':
+                return floatval(filter_var($value, FILTER_VALIDATE_FLOAT));
+            case 'money':
+                return floatval(filter_var(str_replace(',', '.', str_replace('.', '', $value)), FILTER_VALIDATE_FLOAT));
+            case 'email':
+                return filter_var($value, FILTER_VALIDATE_EMAIL);
+            case 'url':
+                return filter_var($value, FILTER_VALIDATE_URL);
+            case 'bool':
+            case 'boolean':
+                return boolval(filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE));
+            case 'default':
+            default:
+                return $value;
+        }
+    } else {
+        return null;
     }
 }
 

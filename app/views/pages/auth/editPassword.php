@@ -62,4 +62,4 @@
     </div>
 </div>
 
-<?php  layout('admin/footer'); ?>
+<?php layout('admin/footer'); ?>

@@ -8,7 +8,7 @@
     </div>
 
     <script>
-        window.addEventListener('load', (event) => {
+        $(function(){
             removeURLParams('success');
         });
     </script>
@@ -22,7 +22,7 @@
     </div>
 
     <script>
-        window.addEventListener('load', (event) => {
+        $(function(){
             removeURLParams('error');
         });
     </script>

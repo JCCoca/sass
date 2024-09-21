@@ -1,4 +1,4 @@
-<?php layout('admin/header', ['title' => 'Editar Usuário', 'active' => 'usuarios']); ?>
+<?php layout('admin/header', ['title' => 'Editar Usuário', 'active' => 'usuario']); ?>
 
 <?php
 
@@ -24,4 +24,4 @@
     </div>
 </div>
 
-<?php  layout('admin/footer'); ?>
+<?php layout('admin/footer'); ?>

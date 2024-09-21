@@ -36,24 +36,24 @@
         Admin
     </div>
 
-    <li class="nav-item <?= $active === 'unidades' ? 'active' : '' ?>">
-        <a href="" class="nav-link">
-            <i class="fa-regular fa-building-flag fa-fw"></i>
-            <span>Unidades</span>
-        </a>
-    </li>
-
-    <li class="nav-item <?= $active === 'salas' ? 'active' : '' ?>">
-        <a href="" class="nav-link">
+    <li class="nav-item <?= $active === 'sala' ? 'active' : '' ?>">
+        <a href="<?= route('sala'); ?>" class="nav-link">
             <i class="fa-regular fa-screen-users fa-fw"></i>
-            <span>Salas</span>
+            <span>Sala</span>
         </a>
     </li>
 
-    <li class="nav-item <?= $active === 'usuarios' ? 'active' : '' ?>">
+    <li class="nav-item <?= $active === 'unidade' ? 'active' : '' ?>">
+        <a href="<?= route('unidade'); ?>" class="nav-link">
+            <i class="fa-regular fa-building-flag fa-fw"></i>
+            <span>Unidade</span>
+        </a>
+    </li>
+
+    <li class="nav-item <?= $active === 'usuario' ? 'active' : '' ?>">
         <a href="<?= route('usuario'); ?>" class="nav-link">
             <i class="fa-regular fa-users fa-fw"></i>
-            <span>Usuários</span>
+            <span>Usuário</span>
         </a>
     </li>
 

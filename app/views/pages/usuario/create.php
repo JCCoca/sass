@@ -1,4 +1,4 @@
-<?php layout('admin/header', ['title' => 'Cadastrar Usuário', 'active' => 'usuarios']); ?>
+<?php layout('admin/header', ['title' => 'Cadastrar Usuário', 'active' => 'usuario']); ?>
 
 <h3 class="mb-3">Cadastrar Usuário</h3>
 
@@ -11,4 +11,4 @@
     </div>
 </div>
 
-<?php  layout('admin/footer'); ?>
+<?php layout('admin/footer'); ?>

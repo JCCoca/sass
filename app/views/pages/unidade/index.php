@@ -1,11 +1,11 @@
-<?php layout('admin/header', ['title' => 'Usuários', 'active' => 'usuario']); ?>
+<?php layout('admin/header', ['title' => 'Unidades', 'active' => 'unidade']); ?>
 
 <div class="row align-items-center mb-3">
     <div class="col-6">
-        <h3 class="mb-0">Usuários</h3>
+        <h3 class="mb-0">Unidades</h3>
     </div>
     <div class="col-6 text-right">
-        <a href="<?= route('usuario/cadastrar'); ?>" class="btn btn-primary btn-icon-split">
+        <a href="<?= route('unidade/cadastrar'); ?>" class="btn btn-primary btn-icon-split">
             <span class="icon">
                 <i class="fa-regular fa-plus"></i> 
             </span>
@@ -18,15 +18,12 @@
     <div class="card-body">
         <?php component('alert-message'); ?>
 
-        <table id="table-usuario" class="table table-sm table-striped table-hover small my-3">
+        <table id="table-unidade" class="table table-sm table-striped table-hover small my-3">
             <thead class="thead-light">
                 <tr>
                     <th class="align-middle">Nome</th>
-                    <th class="align-middle">E-mail</th>
-                    <th class="align-middle">Sexo</th>
-                    <th class="align-middle">Função</th>
-                    <th class="align-middle">Perfil</th>
-                    <th class="align-middle">Unidade</th>
+                    <th class="align-middle">Cidade</th>
+                    <th class="align-middle">Estado</th>
                     <th class="align-middle text-center">Ações</th>
                 </tr>
             </thead>
@@ -34,49 +31,34 @@
     </div>
 </div>
 
-<?php component('modal-delete', ['message' => 'Você tem certeza que deseja excluir esta usuário?']); ?>
+<?php component('modal-delete', ['message' => 'Você tem certeza que deseja excluir esta unidade?']); ?>
 
 <script>
     $(function(){
-        window.tableUsuario = myDataTable('#table-usuario', {
-            url: `<?= route('usuario/listar'); ?>`,
+        window.tableUnidade = myDataTable('#table-unidade', {
+            url: `<?= route('unidade/listar'); ?>`,
             columns: [{
-                name: 'usuario.nome',
+                name: 'unidade.nome',
                 data: 'nome',
                 class: 'align-middle',
-                width: '15%'
+                width: '35%'
             }, {
-                name: 'usuario.email',
-                data: 'email',
+                name: 'cidade.nome',
+                data: 'nome_cidade',
                 class: 'align-middle',
-                width: '15%'
+                width: '25%'
             }, {
-                name: 'usuario.sexo',
-                data: 'sexo',
+                name: 'estado.nome',
+                data: 'nome_estado',
                 class: 'align-middle',
-                width: '15%'
-            }, {
-                name: 'usuario.funcao',
-                data: 'funcao',
-                class: 'align-middle',
-                width: '15%'
-            }, {
-                name: 'perfil.nome',
-                data: 'nome_perfil',
-                class: 'align-middle',
-                width: '15%'
-            }, {
-                name: 'unidade.nome',
-                data: 'nome_unidade',
-                class: 'align-middle',
-                width: '15%'
+                width: '25%'
             }, {
                 name: null,
                 data: null,
                 searchable: false,
                 orderable: false,
                 class: 'align-middle text-center',
-                width: '10%',
+                width: '15%',
                 render(data){
                     return `
                         <div class="d-inline-flex">

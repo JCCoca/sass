@@ -26,3 +26,12 @@ Route::setPost('unidade/cadastrar', actions('unidade/store'), 'auth');
 Route::setGet('unidade/editar', pages('unidade/edit'), 'auth');
 Route::setPost('unidade/editar', actions('unidade/update'), 'auth');
 Route::setPost('unidade/excluir', actions('unidade/destroy'), 'auth');
+
+Route::setGet('sala', pages('sala/index'), 'auth');
+Route::setGet('sala/listar', actions('sala/list'), 'auth');
+Route::setGet('sala/detalhar', pages('sala/detail'), 'auth');
+Route::setGet('sala/cadastrar', pages('sala/create'), 'auth');
+Route::setPost('sala/cadastrar', actions('sala/store'), 'auth');
+Route::setGet('sala/editar', pages('sala/edit'), 'auth');
+Route::setPost('sala/editar', actions('sala/update'), 'auth');
+Route::setPost('sala/excluir', actions('sala/destroy'), 'auth');

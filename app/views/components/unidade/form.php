@@ -16,7 +16,9 @@
     <div class="form-row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="nome">Nome</label>
+                <label for="nome">
+                    Nome<span class="text-danger">*</span>
+                </label>
                 <input 
                     type="text" 
                     name="nome" 
@@ -32,7 +34,9 @@
     <div class="form-row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="id-estado">Estado</label>
+                <label for="id-estado">
+                    Estado<span class="text-danger">*</span>
+                </label>
                 <select name="id_estado" id="id-estado" class="form-control" required>
                     <option value="">Selecione um</option>
                     <?php foreach ($estados as $estado): ?>
@@ -49,7 +53,9 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="id-cidade">Cidade</label>
+                <label for="id-cidade">
+                    Cidade<span class="text-danger">*</span>
+                </label>
                 <select name="id_cidade" id="id-cidade" class="form-control" required>
                     <option value="">Selecione um</option>
                     <?php foreach ($cidades as $cidade): ?>

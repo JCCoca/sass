@@ -11,7 +11,9 @@
     <div class="form-row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="nome">Nome</label>
+                <label for="nome">
+                    Nome<span class="text-danger">*</span>
+                </label>
                 <input 
                     type="text" 
                     name="nome" 
@@ -27,7 +29,9 @@
     <div class="form-row">
         <div class="col-lg-4 col-md-6">
             <div class="form-group">
-                <label for="email">E-mail</label>
+                <label for="email">
+                    E-mail<span class="text-danger">*</span>
+                </label>
                 <input 
                     type="email" 
                     name="email" 
@@ -41,7 +45,9 @@
 
         <div class="col-lg-4 col-md-6">
             <div class="form-group">
-                <label for="senha">Senha</label>
+                <label for="senha">
+                    Senha<span class="text-danger <?= !$requiredSenha ? 'd-none' : ''; ?>">*</span>
+                </label>
                 <input 
                     type="password" 
                     name="senha" 
@@ -54,7 +60,9 @@
 
         <div class="col-lg-4 col-md-6">
             <div class="form-group">
-                <label for="sexo">Sexo</label>
+                <label for="sexo">
+                    Sexo<span class="text-danger">*</span>
+                </label>
                 <select name="sexo" id="sexo" class="form-control" required>
                     <option value="">Selecione um</option>
                     <option value="Masculino" <?= (($usuario->sexo ?? null) === 'Masculino') ? 'selected' : ''; ?>>Masculino</option>
@@ -65,7 +73,9 @@
 
         <div class="col-lg-4 col-md-6">
             <div class="form-group">
-                <label for="funcao">Função</label>
+                <label for="funcao">
+                    Função<span class="text-danger">*</span>
+                </label>
                 <input 
                     type="text" 
                     name="funcao" 
@@ -79,7 +89,9 @@
 
         <div class="col-lg-4 col-md-6">
             <div class="form-group">
-                <label for="id-perfil">Perfil</label>
+                <label for="id-perfil">
+                    Perfil<span class="text-danger">*</span>
+                </label>
                 <select name="id_perfil" id="id-perfil" class="form-control" required>
                     <option value="">Selecione um</option>
                     <?php foreach ($perfis as $perfil): ?>
@@ -96,7 +108,9 @@
 
         <div class="col-lg-4 col-md-6">
             <div class="form-group">
-                <label for="id-unidade">Unidade</label>
+                <label for="id-unidade">
+                    Unidade<span class="text-danger">*</span>
+                </label>
                 <select name="id_unidade" id="id-unidade" class="form-control" required>
                     <option value="">Selecione um</option>
                     <?php foreach ($unidades as $unidade): ?>

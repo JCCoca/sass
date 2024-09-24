@@ -19,8 +19,8 @@ $dataTable->softDelete(false);
 $dataTable->formatData(function($data){
     return [
         'id' => $data->id,
-        'hora_inicio' => $data->hora_inicio,
-        'hora_termino' => $data->hora_termino,
+        'hora_inicio' => date('H:i', strtotime($data->hora_inicio)),
+        'hora_termino' => date('H:i', strtotime($data->hora_termino)),
         'nome_dia_semana' => $data->nome_dia_semana,
         'links' => [
             'edit' => route('sala/disponibilidade/editar', ['id' => $data->id, 'id_sala' => $data->id_sala]),

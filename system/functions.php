@@ -173,6 +173,15 @@ function input(string $method, string $key, string $type = 'string'): string|int
             case 'bool':
             case 'boolean':
                 return boolval(filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE));
+            case 'date':
+                $date = DateTime::createFromFormat('Y-m-d', $value);
+                return ($date and $date->format('Y-m-d') === $value) ? $value : null;
+            case 'time':
+                $time = DateTime::createFromFormat('H:i', $value);
+                return ($time and $time->format('H:i') === $value) ? $value : null;
+            case 'datetime':
+                $datetime = DateTime::createFromFormat('Y-m-d H:i:s', $value);
+                return ($datetime and $datetime->format('Y-m-d H:i:s') === $value) ? $value : null;
             case 'default':
             default:
                 return $value;

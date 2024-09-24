@@ -37,7 +37,7 @@
                     name="hora_inicio" 
                     id="hora-inicio" 
                     class="form-control" 
-                    value="<?= $disponibilidade->hora_inicio ?? ''; ?>" 
+                    value="<?= isset($disponibilidade->hora_inicio) ? date('H:i', strtotime($disponibilidade->hora_inicio)) : ''; ?>" 
                     required
                 >
             </div>
@@ -53,12 +53,14 @@
                     name="hora_termino" 
                     id="hora-termino" 
                     class="form-control" 
-                    value="<?= $disponibilidade->hora_termino ?? ''; ?>" 
+                    value="<?= isset($disponibilidade->hora_termino) ? date('H:i', strtotime($disponibilidade->hora_termino)) : ''; ?>" 
                     required
                 >
             </div>
         </div>
     </div>
+
+    <input type="hidden" name="id_sala" value="<?= $idSala; ?>">
     
     <button type="submit" class="btn btn-primary btn-icon-split">
         <span class="icon">

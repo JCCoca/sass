@@ -54,7 +54,8 @@ CREATE TABLE disponibilidade_sala (
     FOREIGN KEY (id_dia_semana) REFERENCES dia_semana (id),
     hora_inicio TIME NOT NULL,
     hora_termino TIME NOT NULL,
-    criado_em DATETIME NOT NULL DEFAULT NOW()
+    criado_em DATETIME NOT NULL DEFAULT NOW(),
+    atualizado_em DATETIME NULL
 );
 
 CREATE TABLE perfil (

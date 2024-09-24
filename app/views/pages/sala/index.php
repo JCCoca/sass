@@ -67,9 +67,16 @@
                 width: '20%'
             }, {
                 name: 'sala.situacao',
-                data: 'situacao',
+                data: null,
                 class: 'align-middle text-center',
-                width: '10%'
+                width: '10%',
+                render(data){
+                    return `
+                        <span class="badge ${data.situacao === 'Ativa' ? 'badge-success' : 'badge-danger'}">
+                            ${data.situacao}
+                        </span>
+                    `;
+                }
             }, {
                 name: null,
                 data: null,

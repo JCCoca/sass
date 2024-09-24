@@ -35,3 +35,10 @@ Route::setPost('sala/cadastrar', actions('sala/store'), 'auth');
 Route::setGet('sala/editar', pages('sala/edit'), 'auth');
 Route::setPost('sala/editar', actions('sala/update'), 'auth');
 Route::setPost('sala/excluir', actions('sala/destroy'), 'auth');
+
+Route::setGet('sala/disponibilidade/listar', actions('disponibilidade-sala/list'), 'auth');
+Route::setGet('sala/disponibilidade/cadastrar', pages('disponibilidade-sala/create'), 'auth');
+Route::setPost('sala/disponibilidade/cadastrar', actions('disponibilidade-sala/store'), 'auth');
+Route::setGet('sala/disponibilidade/editar', pages('disponibilidade-sala/edit'), 'auth');
+Route::setPost('sala/disponibilidade/editar', actions('disponibilidade-sala/update'), 'auth');
+Route::setPost('sala/disponibilidade/excluir', actions('disponibilidade-sala/destroy'), 'auth');

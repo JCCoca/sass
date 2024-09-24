@@ -48,7 +48,6 @@
                     class="form-control" 
                     required
                 >
-                    <option value="">Selecione um</option>
                     <option value="Ativa" <?= (($sala->situacao ?? null) === 'Ativa') ? 'selected' : ''; ?>>Ativa</option>
                     <option value="Inativa" <?= (($sala->situacao ?? null) === 'Inativa') ? 'selected' : ''; ?>>Inativa</option>
                 </select>
@@ -73,7 +72,10 @@
         <span class="text">Salvar</span>
     </button>
 
-    <a href="<?= route('sala'); ?>" class="btn btn-secondary btn-icon-split">
+    <a 
+        href="<?= (isset($_GET['back']) && $_GET['back'] === 'detail') ? route('sala/detalhar', ['id' => $sala->id]) : route('sala'); ?>" 
+        class="btn btn-secondary btn-icon-split"
+    >
         <span class="icon">
             <i class="fa-regular fa-arrow-left"></i> 
         </span>

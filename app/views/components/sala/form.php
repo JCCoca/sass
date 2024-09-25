@@ -48,8 +48,8 @@
                     class="form-control" 
                     required
                 >
-                    <option value="Ativa" <?= (($sala->situacao ?? null) === 'Ativa') ? 'selected' : ''; ?>>Ativa</option>
-                    <option value="Inativa" <?= (($sala->situacao ?? null) === 'Inativa') ? 'selected' : ''; ?>>Inativa</option>
+                    <option value="Disponível" <?= (($sala->situacao ?? null) === 'Disponível') ? 'selected' : ''; ?>>Disponível</option>
+                    <option value="Indisponível" <?= (($sala->situacao ?? null) === 'Indisponível') ? 'selected' : ''; ?>>Indisponível</option>
                 </select>
             </div>
         </div>

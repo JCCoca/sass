@@ -72,7 +72,7 @@
                 width: '10%',
                 render(data){
                     return `
-                        <span class="badge badge-pill ${data.situacao === 'Ativa' ? 'badge-success' : 'badge-danger'}">
+                        <span class="badge badge-pill ${data.situacao === 'Disponível' ? 'badge-success' : 'badge-danger'}">
                             ${data.situacao}
                         </span>
                     `;

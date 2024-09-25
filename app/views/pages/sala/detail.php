@@ -47,7 +47,7 @@
             <tr>
                 <td class="align-middle"><?= $sala->quantidade_maquina; ?></td>
                 <td class="align-middle">
-                    <span class="badge badge-pill <?= $sala->situacao === 'Ativa' ? 'badge-success' : 'badge-danger'; ?>">
+                    <span class="badge badge-pill <?= $sala->situacao === 'Disponível' ? 'badge-success' : 'badge-danger'; ?>">
                         <?= $sala->situacao; ?>
                     </span>
                 </td>

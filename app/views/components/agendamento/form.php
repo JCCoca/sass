@@ -1,6 +1,6 @@
 <?php 
 
-    $salas = DB::query('SELECT * FROM sala WHERE excluido_em IS NULL AND situacao = "Ativa" ORDER BY nome ASC')->fetchAll();
+    $salas = DB::query('SELECT * FROM sala WHERE excluido_em IS NULL AND situacao = "Disponível" ORDER BY nome ASC')->fetchAll();
 
 ?>
 

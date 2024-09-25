@@ -201,6 +201,22 @@ function hasInput(string $method, string $key): bool
     return isset($input[$key]);
 }
 
+function saveInputs(): void 
+{
+    setSession('INPUTS', [
+        'GET' => $_GET,
+        'POST' => $_POST
+    ]);
+}
+
+function clearInputs(): void
+{
+    setSession('INPUTS', [
+        'GET' => [],
+        'POST' => []
+    ]);
+}
+
 function responseJson(array $content, int $code = 200): void
 {
     header('Content-Type: application/json; charset=utf-8');

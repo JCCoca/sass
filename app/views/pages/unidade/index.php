@@ -31,7 +31,7 @@
     </div>
 </div>
 
-<?php component('modal-delete', ['message' => 'Você tem certeza que deseja excluir esta unidade?']); ?>
+<?php component('modal-confirm-delete', ['message' => 'Você tem certeza que deseja EXCLUIR esta unidade?']); ?>
 
 <script>
     $(function(){

@@ -8,6 +8,7 @@ class DataTableRepository
     protected string $select;
     protected string $join;
     protected string $where;
+    protected string $orderBy;
     protected bool $softDelete;
 
     protected int $draw;
@@ -31,15 +32,16 @@ class DataTableRepository
         $this->select = '';
         $this->join = '';
         $this->where = '';
+        $this->orderBy = '';
         $this->softDelete = $softDelete;
 
-        $this->draw = (int) filter_var(@$_REQUEST['draw'], FILTER_VALIDATE_INT) ?? 1;
-        $this->start = (int) filter_var(@$_REQUEST['start'], FILTER_VALIDATE_INT) ?? 0;
-        $this->length = (int) filter_var(@$_REQUEST['length'], FILTER_VALIDATE_INT) ?? 10;
-        $this->search = htmlspecialchars(strip_tags(@$_REQUEST['search']['value']), ENT_QUOTES, 'UTF-8') ?? '';
+        $this->draw = (int) filter_var(@$_REQUEST['draw'] ?? 1, FILTER_VALIDATE_INT);
+        $this->start = (int) filter_var(@$_REQUEST['start'] ?? 0, FILTER_VALIDATE_INT);
+        $this->length = (int) filter_var(@$_REQUEST['length'] ?? 10, FILTER_VALIDATE_INT);
+        $this->search = htmlspecialchars(strip_tags(@$_REQUEST['search']['value'] ?? ''), ENT_QUOTES, 'UTF-8');
         $this->columns = (array) @$_REQUEST['columns'] ?? [];
-        $this->orderColumn = (int) filter_var(@$_REQUEST['order'][0]['column'], FILTER_VALIDATE_INT) ?? 0;
-        $this->orderDir = htmlspecialchars(strip_tags(@$_REQUEST['order'][0]['dir']), ENT_QUOTES, 'UTF-8') ?? 'asc';
+        $this->orderColumn = (int) filter_var(@$_REQUEST['order'][0]['column'] ?? 0, FILTER_VALIDATE_INT);
+        $this->orderDir = htmlspecialchars(strip_tags(@$_REQUEST['order'][0]['dir'] ?? 'asc'), ENT_QUOTES, 'UTF-8');
 
         $this->columnName = [];
 
@@ -85,6 +87,12 @@ class DataTableRepository
         return $this;
     }
 
+    public function orderBy(string $column, string $orderDir = 'ASC'): object
+    {
+        $this->orderBy .= ", {$column} {$orderDir}";
+        return $this;
+    }
+
     public function softDelete(bool $softDelete): void 
     {
         $this->softDelete = $softDelete;
@@ -119,8 +127,18 @@ class DataTableRepository
         if (!empty($this->search)) {
             $sql .= " AND ({$this->searchConditions})";
         }
+        
+        $sql .= " ORDER BY NULL";
 
-        $sql .= " ORDER BY {$this->columnName[$this->orderColumn]} {$this->orderDir} LIMIT :length OFFSET :start";
+        if (!empty($this->orderBy)) {
+            $sql .= "{$this->orderBy}";
+        }
+
+        if (!empty($this->columnName[$this->orderColumn]) and !empty($this->orderDir)) {
+            $sql .= ", {$this->columnName[$this->orderColumn]} {$this->orderDir}";
+        }
+
+        $sql .= " LIMIT :length OFFSET :start";
 
         $stmt = $this->connection->prepare($sql);
 

@@ -8,8 +8,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <?= $message ?? 'Você tem certeza que deseja excluir?'; ?>
+            <div class="modal-body" id="message-confirm-delete">
+                <?= $message ?? 'Você tem certeza que deseja EXCLUIR?'; ?>
             </div>
             <div class="modal-footer justify-content-start">
                 <form id="form-modal-confirm-delete" method="POST">
@@ -33,11 +33,11 @@
 </div>
 
 <script>
-    function confirmDelete(url) {
-        let form = $('#form-modal-confirm-delete');
-        let modalConfirmDelete = $('#modal-confirm-delete');
-
-        form.attr('action', url);
-        modalConfirmDelete.modal('show');
+    function confirmDelete(url, message = null) {
+        if (message !== null) {
+            $('#message-confirm-delete').text(message);
+        }
+        $('#form-modal-confirm-delete').attr('action', url);
+        $('#modal-confirm-delete').modal('show');
     }
 </script>

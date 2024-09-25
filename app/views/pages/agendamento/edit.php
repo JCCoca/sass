@@ -4,7 +4,7 @@
 
     $id = input('get', 'id', 'integer');
 
-    $queryAgendamento = DB::query('SELECT * FROM agendamento WHERE id = :id AND excluido_em IS NULL', [':id' => $id]);
+    $queryAgendamento = DB::query('SELECT * FROM agendamento WHERE id = :id AND situacao = "Aguardando Confirmação" AND excluido_em IS NULL', [':id' => $id]);
 
     if (empty($id) or $queryAgendamento->rowCount() == 0) {
         show401();

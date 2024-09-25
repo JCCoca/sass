@@ -11,7 +11,6 @@ if (
     and !empty($nome)
     and !empty($quantidadeMaquina)
     and !empty($situacao)
-    and !empty($descricao)
 ) {
     $result = DB::update('sala', [
         'nome' => $nome,

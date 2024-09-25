@@ -35,6 +35,7 @@ Route::setPost('sala/cadastrar', actions('sala/store'), 'auth');
 Route::setGet('sala/editar', pages('sala/edit'), 'auth');
 Route::setPost('sala/editar', actions('sala/update'), 'auth');
 Route::setPost('sala/excluir', actions('sala/destroy'), 'auth');
+Route::setGet('sala/obter', actions('sala/get'), 'auth');
 
 Route::setGet('sala/disponibilidade/listar', actions('disponibilidade-sala/list'), 'auth');
 Route::setGet('sala/disponibilidade/cadastrar', pages('disponibilidade-sala/create'), 'auth');
@@ -50,3 +51,5 @@ Route::setPost('agendamento/cadastrar', actions('agendamento/store'), 'auth');
 Route::setGet('agendamento/editar', pages('agendamento/edit'), 'auth');
 Route::setPost('agendamento/editar', actions('agendamento/update'), 'auth');
 Route::setPost('agendamento/excluir', actions('agendamento/destroy'), 'auth');
+Route::setPost('agendamento/confirmar', actions('agendamento/confirm'), 'auth');
+Route::setPost('agendamento/recusar', actions('agendamento/reject'), 'auth');

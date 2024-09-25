@@ -14,3 +14,18 @@ function abreviarNome(string $nomeCompleto): string
 
     return implode(' ', $abreviado);
 }
+
+function isAdministrador(): bool 
+{
+    return getSession()['auth']['id_perfil'] === 1;
+}
+
+function isGestor(): bool 
+{
+    return getSession()['auth']['id_perfil'] === 2;
+}
+
+function isOrientador(): bool 
+{
+    return getSession()['auth']['id_perfil'] === 3;
+}

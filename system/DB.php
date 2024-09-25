@@ -67,9 +67,11 @@ class DB
 
             $create->execute();
 
-            if (Connection::lastInsertId() !== false) {
+            $lastInsertId = Connection::lastInsertId();
+
+            if ($lastInsertId !== false) {
                 Connection::commit();
-                return intval(Connection::lastInsertId());
+                return intval($lastInsertId);
             } else {
                 Connection::rollBack();
                 return false;

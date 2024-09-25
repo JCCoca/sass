@@ -89,8 +89,8 @@ CREATE TABLE agendamento (
     hora_termino TIME NOT NULL,
     turma VARCHAR(120) NOT NULL,
     uc VARCHAR(120) NOT NULL,
-    motivo TEXT NOT NULL,
-    situacao ENUM('Aprovado', 'Negado', 'Aguardando Confirmação') NOT NULL DEFAULT 'Aguardando Confirmação',
+    justificativa TEXT NOT NULL,
+    situacao ENUM('Aprovado', 'Recusado', 'Aguardando Confirmação') NOT NULL DEFAULT 'Aguardando Confirmação',
     id_usuario BIGINT(19) NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES usuario (id),
     id_sala BIGINT(19) NOT NULL,
@@ -5741,6 +5741,9 @@ INSERT INTO perfil (nome) VALUES ('Administrador'), ('Gestor'), ('Orientador');
 INSERT INTO unidade (nome, id_estado, id_cidade) VALUES 
 ('NEP - Núcleo de Educação Profissional', 1, 94);
 
+INSERT INTO unidade (nome, id_estado, id_cidade) VALUES 
+('CEP - Centro de Educação Profissional', 1, 94);
+
 -- INSERT USUÁRIO
 INSERT INTO usuario (
     nome,
@@ -5757,5 +5760,41 @@ INSERT INTO usuario (
     'Masculino',
     'Administrador',
     1,
+    1
+);
+
+INSERT INTO usuario (
+    nome,
+    email,
+    senha,
+    sexo, 
+    funcao,
+    id_perfil,
+    id_unidade
+) VALUE (
+    'Gestor',
+    'gestor@ac.senac.br',
+    '$2y$10$p.vrasqJxu6wtnT68VsfNe0PI3M3bfIJT2m7en/LgQjRQxT3hzTQm',
+    'Masculino',
+    'Gestor',
+    2,
+    1
+);
+
+INSERT INTO usuario (
+    nome,
+    email,
+    senha,
+    sexo, 
+    funcao,
+    id_perfil,
+    id_unidade
+) VALUE (
+    'Orientador',
+    'orientador@ac.senac.br',
+    '$2y$10$p.vrasqJxu6wtnT68VsfNe0PI3M3bfIJT2m7en/LgQjRQxT3hzTQm',
+    'Masculino',
+    'Orientador',
+    3,
     1
 );

@@ -20,8 +20,8 @@ if (!empty($email) and !empty($senha)) {
                 'email' => $usuario->email,
                 'sexo' => $usuario->sexo,
                 'funcao' => $usuario->funcao,
-                'id_perfil' => $usuario->id_perfil,
-                'id_unidade' => $usuario->id_unidade
+                'id_perfil' => intval($usuario->id_perfil),
+                'id_unidade' => !empty($usuario->id_unidade) ? intval($usuario->id_unidade) : null
             ]);
 
             redirect('');

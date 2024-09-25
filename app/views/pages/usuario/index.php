@@ -34,7 +34,7 @@
     </div>
 </div>
 
-<?php component('modal-delete', ['message' => 'Você tem certeza que deseja excluir esta usuário?']); ?>
+<?php component('modal-confirm-delete', ['message' => 'Você tem certeza que deseja EXCLUIR esta usuário?']); ?>
 
 <script>
     $(function(){

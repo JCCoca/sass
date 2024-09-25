@@ -1,75 +1,190 @@
 <?php 
 
-    $estados = DB::query('SELECT * FROM estado')->fetchAll();
-
-    if (isset($unidade->id_cidade) and !empty($unidade->id_cidade)) {
-        $cidades = DB::query('SELECT * FROM cidade WHERE id_estado = :id ORDER BY nome ASC', [
-            ':id' => $unidade->id_estado
-        ])->fetchAll();
-    }
+    $salas = DB::query('SELECT * FROM sala WHERE excluido_em IS NULL AND situacao = "Ativa" ORDER BY nome ASC')->fetchAll();
 
 ?>
 
 <?php component('alert-message'); ?>
 
+<div id="info-sala" style="display: none;">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h5 class="card-title text-primary font-weight-bold mb-0">
+                Informações Sobre Sala
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-sm mb-0">
+                    <tr class="bg-primary text-white">
+                        <th class="align-middle py-3" colspan="2">
+                            <h5 class="mb-0">Dados da Sala</h5>
+                        </th>
+                    </tr>
+                    <tr class="thead-light">
+                        <th class="align-middle w-50">Nome</th>
+                        <th class="align-middle w-50">Quantidade de Máquina</th>
+                    </tr>
+                    <tr>
+                        <td id="nome-sala" class="align-middle"></td>
+                        <td id="quantidade-maquina-sala" class="align-middle"></td>
+                    </tr>
+                    <tr class="thead-light">
+                        <th class="align-middle" colspan="2">Descrição</th>
+                    </tr>
+                    <tr>
+                        <td id="descricao-sala" class="align-middle" colspan="2"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-sm table-striped">
+                    <thead>
+                        <tr class="bg-primary text-white">
+                            <th class="align-middle py-3" colspan="3">
+                                <h5 class="mb-0">Disponibilidade da Sala</h5>
+                            </th>
+                        </tr>
+                        <tr class="thead-light">
+                            <th class="align-middle">Dia da Semana</th>
+                            <th class="align-middle text-center">Hora Início</th>
+                            <th class="align-middle text-center">Hora Término</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-disponibilidade"></tbody>
+                </table>
+            </div>
+
+            <div class="text-danger">
+                * As informações sobre a disponibilidade da sala não refletem os horários já agendados pelos orientadores, mas sim as suas disponibilidades gerais durante os dias da semana. 
+                O sistema informará se a data e horário desejados estão disponíveis após a solicitação ser feita.
+            </div>
+        </div>
+    </div>
+
+    <hr>
+</div>
+
 <form action="<?= $action; ?>" method="POST" autocomplete="off">
     <div class="form-row">
-        <div class="col-md-6">
+        <div class="col-lg-4 col-md-6">
+            <div class="form-group">
+                <label for="id-sala">
+                    Sala<span class="text-danger">*</span>
+                </label>
+                <select name="id_sala" id="id-sala" class="form-control" required>
+                    <option value="">Selecione um</option>
+                    <?php foreach ($salas as $sala): ?>
+                        <option 
+                            value="<?= $sala->id; ?>" 
+                            <?= ($sala->id === ($agendamento->id_sala ?? null)) ? 'selected' : ''; ?>
+                        >
+                            <?= $sala->nome; ?>
+                        </option>
+                    <?php endforeach ?>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">        
+        <div class="col-lg-4 col-md-6">
             <div class="form-group">
                 <label for="nome">
-                    Nome<span class="text-danger">*</span>
+                    Data<span class="text-danger">*</span>
                 </label>
                 <input 
-                    type="text" 
-                    name="nome" 
-                    id="nome" 
+                    type="date" 
+                    name="data" 
+                    id="data" 
                     class="form-control" 
-                    value="<?= $unidade->nome ?? ''; ?>" 
+                    value="<?= $agendamento->data ?? ''; ?>" 
+                    required
+                >
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="form-group">
+                <label for="hora-inicio">
+                    Hora de Início<span class="text-danger">*</span>
+                </label>
+                <input 
+                    type="time" 
+                    name="hora_inicio" 
+                    id="hora-inicio" 
+                    class="form-control" 
+                    value="<?= isset($agendamento->hora_inicio) ? date('H:i', strtotime($agendamento->hora_inicio)) : ''; ?>" 
+                    required
+                >
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+            <div class="form-group">
+                <label for="hora-termino">
+                    Hora de Término<span class="text-danger">*</span>
+                </label>
+                <input 
+                    type="time" 
+                    name="hora_termino" 
+                    id="hora-termino" 
+                    class="form-control" 
+                    value="<?= isset($agendamento->hora_termino) ? date('H:i', strtotime($agendamento->hora_termino)) : ''; ?>" 
                     required
                 >
             </div>
         </div>
     </div>
 
+    <hr>
+
     <div class="form-row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="id-estado">
-                    Estado<span class="text-danger">*</span>
+                <label for="turma">
+                    Turma<span class="text-danger">*</span>
                 </label>
-                <select name="id_estado" id="id-estado" class="form-control" required>
-                    <option value="">Selecione um</option>
-                    <?php foreach ($estados as $estado): ?>
-                        <option 
-                            value="<?= $estado->id; ?>" 
-                            <?= ($estado->id === ($unidade->id_estado ?? null)) ? 'selected' : ''; ?>
-                        >
-                            <?= $estado->nome; ?>
-                        </option>
-                    <?php endforeach ?>
-                </select>
+                <input 
+                    type="text" 
+                    name="turma" 
+                    id="turma" 
+                    class="form-control" 
+                    value="<?= $agendamento->turma ?? ''; ?>" 
+                    required
+                >
             </div>
         </div>
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="id-cidade">
-                    Cidade<span class="text-danger">*</span>
+                <label for="uc">
+                    UC<span class="text-danger">*</span>
                 </label>
-                <select name="id_cidade" id="id-cidade" class="form-control" required>
-                    <option value="">Selecione um</option>
-                    <?php foreach ($cidades as $cidade): ?>
-                        <option 
-                            value="<?= $cidade->id; ?>" 
-                            class="cidade"
-                            <?= ($cidade->id === ($unidade->id_cidade ?? null)) ? 'selected' : ''; ?>
-                        >
-                            <?= $cidade->nome; ?>
-                        </option>
-                    <?php endforeach ?>
-                </select>
+                <input 
+                    type="text" 
+                    name="uc" 
+                    id="uc" 
+                    class="form-control" 
+                    value="<?= $agendamento->uc ?? ''; ?>" 
+                    required
+                >
             </div>
         </div>
+    </div>
+
+    <div class="form-group">
+        <label for="justificativa">
+            Justificativa<span class="text-danger">*</span>
+        </label>
+        <textarea 
+            name="justificativa" 
+            id="justificativa" 
+            class="form-control" 
+            rows="6" 
+            required
+        ><?= $agendamento->justificativa ?? ''; ?></textarea>
     </div>
     
     <button type="submit" class="btn btn-primary btn-icon-split">
@@ -79,7 +194,7 @@
         <span class="text">Salvar</span>
     </button>
 
-    <a href="<?= route('unidade'); ?>" class="btn btn-secondary btn-icon-split">
+    <a href="<?= route('agendamento'); ?>" class="btn btn-secondary btn-icon-split">
         <span class="icon">
             <i class="fa-regular fa-arrow-left"></i> 
         </span>
@@ -89,23 +204,38 @@
 
 <script>
     $(function(){
-        $('#id-estado').change(function(){
-            let idEstado = $(this).val();
+        $('#id-sala').change(function(){
+            let id = $(this).val();
 
-            $('#id-cidade > option.cidade').remove();
+            if (!empty(id)) {
+                $('#info-sala').show();
 
-            if (!empty(idEstado)) {
                 $.ajax({
-                    url: '<?= route('cidade/obter'); ?>',
+                    url: '<?= route('sala/obter'); ?>',
                     method: 'GET',
                     data: {
-                        id_estado: idEstado
+                        id: id
                     }
                 }).then(function(response){
-                    $.each(response.data, function(index, data){
-                        $('#id-cidade').append(`<option value="${data.id}" class="cidade">${data.nome}</option>`);
+                    let sala = response.data;
+
+                    $('#nome-sala').text(sala.nome);
+                    $('#quantidade-maquina-sala').text(sala.quantidade_maquina);
+                    $('#descricao-sala').text(sala.descricao ?? '-');
+
+                    $('#tbody-disponibilidade').html('');
+                    $.each(sala.disponibilidades, function(index, disponibilidade){
+                        $('#tbody-disponibilidade').append(`
+                            <tr>
+                                <td class="align-middle">${disponibilidade.nome_dia_semana}</td>
+                                <td class="align-middle text-center">${disponibilidade.hora_inicio}</td>
+                                <td class="align-middle text-center">${disponibilidade.hora_termino}</td>
+                            </tr>
+                        `);
                     });
                 });
+            } else {
+                $('#info-sala').fadeOut(0);
             }
         });
     });

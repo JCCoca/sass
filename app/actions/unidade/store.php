@@ -21,8 +21,8 @@ if (
             'success' => 'Cadastro realizado com sucesso!'
         ]);
     } else {
-        redirect('unidade/cadastrar', ['
-            error' => 'Houve um erro ao tentar realizar o cadastro, por favor tente mais tarde!'
+        redirect('unidade/cadastrar', [
+            'error' => 'Houve um erro ao tentar realizar o cadastro, por favor tente mais tarde!'
         ]);
     }
 } else {

@@ -12,7 +12,9 @@ $dataTable
         dia_semana.nome AS nome_dia_semana
     ')
     ->join('dia_semana', 'disponibilidade_sala.id_dia_semana', '=', 'dia_semana.id')
-    ->where('id_sala', '=', $idSala);
+    ->where('id_sala', '=', $idSala)
+    ->orderBy('id_dia_semana')
+    ->orderBy('hora_inicio');
 
 $dataTable->softDelete(false);
 

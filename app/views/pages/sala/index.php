@@ -33,7 +33,7 @@
     </div>
 </div>
 
-<?php component('modal-delete', ['message' => 'Você tem certeza que deseja excluir esta sala?']); ?>
+<?php component('modal-confirm-delete', ['message' => 'Você tem certeza que deseja EXCLUIR esta sala?']); ?>
 
 <script>
     $(function(){
@@ -72,7 +72,7 @@
                 width: '10%',
                 render(data){
                     return `
-                        <span class="badge ${data.situacao === 'Ativa' ? 'badge-success' : 'badge-danger'}">
+                        <span class="badge badge-pill ${data.situacao === 'Ativa' ? 'badge-success' : 'badge-danger'}">
                             ${data.situacao}
                         </span>
                     `;

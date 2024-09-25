@@ -34,25 +34,25 @@
     </div>
     <div class="card-body">
         <table class="table table-sm table-striped">
-            <tr>
+            <tr class="thead-light">
                 <th class="align-middle" colspan="2">Nome</th>
             </tr>
             <tr>
                 <td class="align-middle" colspan="2"><?= $sala->nome; ?></td>
             </tr>
-            <tr>
+            <tr class="thead-light">
                 <th class="align-middle">Quantidade de Máquina</th>
                 <th class="align-middle">Situação</th>
             </tr>
             <tr>
                 <td class="align-middle"><?= $sala->quantidade_maquina; ?></td>
                 <td class="align-middle">
-                    <span class="badge <?= $sala->situacao === 'Ativa' ? 'badge-success' : 'badge-danger'; ?>">
+                    <span class="badge badge-pill <?= $sala->situacao === 'Ativa' ? 'badge-success' : 'badge-danger'; ?>">
                         <?= $sala->situacao; ?>
                     </span>
                 </td>
             </tr>
-            <tr>
+            <tr class="thead-light">
                 <th class="align-middle" colspan="2">Descrição</th>
             </tr>
             <tr>
@@ -97,19 +97,20 @@
     </div>
 </div>
 
-<a href="<?= route('sala'); ?>" class="btn btn-secondary btn-icon-split">
+<a href="<?= route('sala'); ?>" class="btn btn-secondary btn-icon-split mb-4">
     <span class="icon">
         <i class="fa-regular fa-arrow-left"></i> 
     </span>
     <span class="text">Voltar</span>
 </a>
 
-<?php component('modal-delete', ['message' => 'Você tem certeza que deseja excluir esta disponibilidade?']); ?>
+<?php component('modal-confirm-delete', ['message' => 'Você tem certeza que deseja EXCLUIR esta disponibilidade?']); ?>
 
 <script>
     $(function(){
         window.tableDiponibilidadeSala = myDataTable('#table-disponibilidade-sala', {
             url: `<?= route('sala/disponibilidade/listar'); ?>`,
+            ordering: false,
             data: {
                 id_sala: '<?= $id; ?>'
             },
@@ -126,7 +127,7 @@
             }, {
                 name: 'disponibilidade_sala.hora_termino',
                 data: 'hora_termino',
-                class: 'align-middle',
+                class: 'align-middle text-center',
                 width: '20%'
             }, {
                 name: null,

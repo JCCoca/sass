@@ -7,7 +7,12 @@ $senha = input('post', 'senha');
 $sexo = input('post', 'sexo');
 $funcao = input('post', 'funcao');
 $idPerfil = input('post', 'id_perfil', 'integer');
-$idUnidade = input('post', 'id_unidade', 'integer');
+
+if (isAdministrador()) {
+    $idUnidade = input('post', 'id_unidade', 'integer');
+} else {
+    $idUnidade = getSession()['auth']['id_unidade'];
+}
 
 if (
     !empty($id)

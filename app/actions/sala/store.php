@@ -9,9 +9,8 @@ if (
     !empty($nome)
     and !empty($quantidadeMaquina)
     and !empty($situacao)
-    and !empty($descricao)
 ) {
-    $result = DB::create('sala', [
+    $idSala = DB::create('sala', [
         'nome' => $nome,
         'quantidade_maquina' => $quantidadeMaquina,
         'situacao' => $situacao,
@@ -20,9 +19,9 @@ if (
         'criado_em' => date('Y-m-d H:i:s')
     ]);
 
-    if ($result !== false) {
-        redirect('sala/cadastrar', [
-            'success' => 'Cadastro realizado com sucesso!'
+    if ($idSala !== false) {
+        redirect('sala/detalhar', [
+            'id' => $idSala
         ]);
     } else {
         redirect('sala/cadastrar', ['

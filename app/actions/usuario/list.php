@@ -13,6 +13,12 @@ $dataTable
     ->join('perfil', 'usuario.id_perfil', '=', 'perfil.id')
     ->join('unidade', 'usuario.id_unidade', '=', 'unidade.id');
 
+if (isGestor()) {
+    $dataTable
+        ->where('id_unidade', '=', getSession()['auth']['id_unidade'])
+        ->where('id_perfil', '<>', 1);
+}
+
 $dataTable->formatData(function($data){
     return [
         'id' => $data->id,

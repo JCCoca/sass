@@ -1,7 +1,11 @@
 <?php 
 
-    $perfis = DB::query('SELECT * FROM perfil WHERE excluido_em IS NULL')->fetchAll();
-    $unidades = DB::query('SELECT * FROM unidade WHERE excluido_em IS NULL')->fetchAll();
+    if (isAdministrador()) {
+        $perfis = DB::query('SELECT * FROM perfil WHERE excluido_em IS NULL')->fetchAll();
+        $unidades = DB::query('SELECT * FROM unidade WHERE excluido_em IS NULL')->fetchAll();
+    } else {
+        $perfis = DB::query('SELECT * FROM perfil WHERE id <> 1 AND excluido_em IS NULL')->fetchAll();
+    }
 
 ?>
 
@@ -106,24 +110,26 @@
             </div>
         </div>
 
-        <div class="col-lg-4 col-md-6">
-            <div class="form-group">
-                <label for="id-unidade">
-                    Unidade<span class="text-danger">*</span>
-                </label>
-                <select name="id_unidade" id="id-unidade" class="form-control" required>
-                    <option value="">Selecione um</option>
-                    <?php foreach ($unidades as $unidade): ?>
-                        <option 
-                            value="<?= $unidade->id; ?>" 
-                            <?= ($unidade->id === ($usuario->id_unidade ?? null)) ? 'selected' : ''; ?>
-                        >
-                            <?= $unidade->nome; ?>
-                        </option>
-                    <?php endforeach ?>
-                </select>
+        <?php if (isAdministrador()): ?>
+            <div class="col-lg-4 col-md-6">
+                <div class="form-group">
+                    <label for="id-unidade">
+                        Unidade<span class="text-danger">*</span>
+                    </label>
+                    <select name="id_unidade" id="id-unidade" class="form-control">
+                        <option value="">Selecione um</option>
+                        <?php foreach ($unidades as $unidade): ?>
+                            <option 
+                                value="<?= $unidade->id; ?>" 
+                                <?= ($unidade->id === ($usuario->id_unidade ?? null)) ? 'selected' : ''; ?>
+                            >
+                                <?= $unidade->nome; ?>
+                            </option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
             </div>
-        </div>
+        <?php endif ?>
     </div>
     
     <button type="submit" class="btn btn-primary btn-icon-split">

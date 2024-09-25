@@ -150,41 +150,45 @@ function input(string $method, string $key, string $type = 'string'): string|int
     if (isset($input[$key])) {
         $value = trim($input[$key]);
 
-        switch (strtolower($type)) {
-            case 'string':
-                return htmlspecialchars(strip_tags($value), ENT_QUOTES, 'UTF-8');
-            case 'int':
-            case 'integer':
-                return intval(filter_var($value, FILTER_VALIDATE_INT, [
-                    'options' => [
-                        'min_range' => PHP_INT_MIN,
-                        'max_range' => PHP_INT_MAX
-                    ]
-                ]));
-            case 'double':
-            case 'float':
-                return floatval(filter_var($value, FILTER_VALIDATE_FLOAT));
-            case 'money':
-                return floatval(filter_var(str_replace(',', '.', str_replace('.', '', $value)), FILTER_VALIDATE_FLOAT));
-            case 'email':
-                return filter_var($value, FILTER_VALIDATE_EMAIL);
-            case 'url':
-                return filter_var($value, FILTER_VALIDATE_URL);
-            case 'bool':
-            case 'boolean':
-                return boolval(filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE));
-            case 'date':
-                $date = DateTime::createFromFormat('Y-m-d', $value);
-                return ($date and $date->format('Y-m-d') === $value) ? $value : null;
-            case 'time':
-                $time = DateTime::createFromFormat('H:i', $value);
-                return ($time and $time->format('H:i') === $value) ? $value : null;
-            case 'datetime':
-                $datetime = DateTime::createFromFormat('Y-m-d H:i:s', $value);
-                return ($datetime and $datetime->format('Y-m-d H:i:s') === $value) ? $value : null;
-            case 'default':
-            default:
-                return $value;
+        if (!empty($value)) {
+            switch (strtolower($type)) {
+                case 'string':
+                    return htmlspecialchars(strip_tags($value), ENT_QUOTES, 'UTF-8');
+                case 'int':
+                case 'integer':
+                    return intval(filter_var($value, FILTER_VALIDATE_INT, [
+                        'options' => [
+                            'min_range' => PHP_INT_MIN,
+                            'max_range' => PHP_INT_MAX
+                        ]
+                    ]));
+                case 'double':
+                case 'float':
+                    return floatval(filter_var($value, FILTER_VALIDATE_FLOAT));
+                case 'money':
+                    return floatval(filter_var(str_replace(',', '.', str_replace('.', '', $value)), FILTER_VALIDATE_FLOAT));
+                case 'email':
+                    return filter_var($value, FILTER_VALIDATE_EMAIL);
+                case 'url':
+                    return filter_var($value, FILTER_VALIDATE_URL);
+                case 'bool':
+                case 'boolean':
+                    return boolval(filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE));
+                case 'date':
+                    $date = DateTime::createFromFormat('Y-m-d', $value);
+                    return ($date and $date->format('Y-m-d') === $value) ? $value : null;
+                case 'time':
+                    $time = DateTime::createFromFormat('H:i', $value);
+                    return ($time and $time->format('H:i') === $value) ? $value : null;
+                case 'datetime':
+                    $datetime = DateTime::createFromFormat('Y-m-d H:i:s', $value);
+                    return ($datetime and $datetime->format('Y-m-d H:i:s') === $value) ? $value : null;
+                case 'default':
+                default:
+                    return $value;
+            }
+        } else {
+            return null;
         }
     } else {
         return null;

@@ -64,6 +64,7 @@ window.myDataTable = (id, args = {}) => {
     let dataType = args['dataType'] ?? 'json';
     let data = args['data'] ?? function(){};
     let columns = args['columns'] ?? [];
+    let ordering = args['ordering'] ?? true;
 
     return new DataTable(id, {
         ajax: {
@@ -76,6 +77,7 @@ window.myDataTable = (id, args = {}) => {
                 console.log(response.message);
             }
         },
+        ordering: ordering,
         columns: columns
     });
 };

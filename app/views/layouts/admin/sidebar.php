@@ -17,45 +17,64 @@
         </a>
     </li>
 
-    <hr class="sidebar-divider">
+    <?php if (isOrientador() or isGestor()): ?>
+        <hr class="sidebar-divider">
 
-    <div class="sidebar-heading">
-        Módulos
-    </div>
+        <div class="sidebar-heading">
+            Módulos
+        </div>
 
-    <li class="nav-item <?= $active === 'agendamento' ? 'active' : '' ?>">
-        <a href="<?= route('agendamento'); ?>" class="nav-link">
-            <i class="fa-regular fa-calendar-lines-pen fa-fw"></i>
-            <span>Agendamento</span>
-        </a>
-    </li>
+        <li class="nav-item <?= $active === 'agendamento' ? 'active' : '' ?>">
+            <a href="<?= route('agendamento'); ?>" class="nav-link">
+                <i class="fa-regular fa-calendar-lines-pen fa-fw"></i>
+                <span>Agendamento</span>
+            </a>
+        </li>
+    <?php endif ?>
 
-    <hr class="sidebar-divider">
+    <?php if (isGestor()): ?>
+        <hr class="sidebar-divider">
 
-    <div class="sidebar-heading">
-        Admin
-    </div>
+        <div class="sidebar-heading">
+            Gestor
+        </div>
 
-    <li class="nav-item <?= $active === 'sala' ? 'active' : '' ?>">
-        <a href="<?= route('sala'); ?>" class="nav-link">
-            <i class="fa-regular fa-screen-users fa-fw"></i>
-            <span>Sala</span>
-        </a>
-    </li>
+        <li class="nav-item <?= $active === 'sala' ? 'active' : '' ?>">
+            <a href="<?= route('sala'); ?>" class="nav-link">
+                <i class="fa-regular fa-screen-users fa-fw"></i>
+                <span>Sala</span>
+            </a>
+        </li>
 
-    <li class="nav-item <?= $active === 'unidade' ? 'active' : '' ?>">
-        <a href="<?= route('unidade'); ?>" class="nav-link">
-            <i class="fa-regular fa-building-flag fa-fw"></i>
-            <span>Unidade</span>
-        </a>
-    </li>
+        <li class="nav-item <?= $active === 'usuario' ? 'active' : '' ?>">
+            <a href="<?= route('usuario'); ?>" class="nav-link">
+                <i class="fa-regular fa-users fa-fw"></i>
+                <span>Usuário</span>
+            </a>
+        </li>
+    <?php endif ?>
 
-    <li class="nav-item <?= $active === 'usuario' ? 'active' : '' ?>">
-        <a href="<?= route('usuario'); ?>" class="nav-link">
-            <i class="fa-regular fa-users fa-fw"></i>
-            <span>Usuário</span>
-        </a>
-    </li>
+    <?php if (isAdministrador()): ?>
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">
+            Admin
+        </div>
+
+        <li class="nav-item <?= $active === 'usuario' ? 'active' : '' ?>">
+            <a href="<?= route('usuario'); ?>" class="nav-link">
+                <i class="fa-regular fa-users fa-fw"></i>
+                <span>Usuário</span>
+            </a>
+        </li>
+
+        <li class="nav-item <?= $active === 'unidade' ? 'active' : '' ?>">
+            <a href="<?= route('unidade'); ?>" class="nav-link">
+                <i class="fa-regular fa-building-flag fa-fw"></i>
+                <span>Unidade</span>
+            </a>
+        </li>
+    <?php endif ?>
 
     <hr class="sidebar-divider d-none d-md-block">
 

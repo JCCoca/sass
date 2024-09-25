@@ -6,7 +6,12 @@ $senha = input('post', 'senha');
 $sexo = input('post', 'sexo');
 $funcao = input('post', 'funcao');
 $idPerfil = input('post', 'id_perfil', 'integer');
-$idUnidade = input('post', 'id_unidade', 'integer');
+
+if (isAdministrador()) {
+    $idUnidade = input('post', 'id_unidade', 'integer');
+} else {
+    $idUnidade = getSession()['auth']['id_unidade'];
+}
 
 if (
     !empty($nome)
@@ -15,7 +20,6 @@ if (
     and !empty($sexo)
     and !empty($funcao)
     and !empty($idPerfil)
-    and !empty($idUnidade)
 ) {
     $result = DB::create('usuario', [
         'nome' => $nome,
@@ -24,7 +28,7 @@ if (
         'sexo' => $sexo,
         'funcao' => $funcao,
         'id_perfil' => $idPerfil,
-        'id_unidade' => $idUnidade,
+        'id_unidade' => $idUnidade ?? null,
         'criado_em' => date('Y-m-d H:i:s')
     ]);
 
@@ -33,8 +37,8 @@ if (
             'success' => 'Cadastro realizado com sucesso!'
         ]);
     } else {
-        redirect('usuario/cadastrar', ['
-            error' => 'Houve um erro ao tentar realizar o cadastro, por favor tente mais tarde!'
+        redirect('usuario/cadastrar', [
+            'error' => 'Houve um erro ao tentar realizar o cadastro, por favor tente mais tarde!'
         ]);
     }
 } else {

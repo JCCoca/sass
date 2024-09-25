@@ -24,7 +24,7 @@
     </div>
 
     <li class="nav-item <?= $active === 'agendamento' ? 'active' : '' ?>">
-        <a href="" class="nav-link">
+        <a href="<?= route('agendamento'); ?>" class="nav-link">
             <i class="fa-regular fa-calendar-lines-pen fa-fw"></i>
             <span>Agendamento</span>
         </a>

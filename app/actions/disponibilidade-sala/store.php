@@ -11,6 +11,13 @@ if (
     and !empty($horaTermino)
     and !empty($idSala)
 ) {
+    if (strtotime($horaInicio) >= strtotime($horaTermino)) {
+        redirect('sala/disponibilidade/cadastrar', [
+            'id_sala' => $idSala,
+            'error' => 'A hora de início deve ser menor que a de término!'
+        ]);
+    }
+
     $result = DB::create('disponibilidade_sala', [
         'id_dia_semana' => $idDiaSemana,
         'hora_inicio' => $horaInicio,

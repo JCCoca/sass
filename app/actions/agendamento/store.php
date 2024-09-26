@@ -25,6 +25,12 @@ if (
         ]);
     }
 
+    if (strtotime($data) > strtotime('+30 day', strtotime(date('Y-m-d')))) {
+        redirect('agendamento/cadastrar', [
+            'error' => 'A data do agendamento não pode exceder 30 dias a partir de hoje!'
+        ]);
+    }
+
     if (strtotime($horaInicio) >= strtotime($horaTermino)) {
         redirect('agendamento/cadastrar', [
             'error' => 'A hora de início deve ser menor que a de término!'

@@ -7,6 +7,7 @@ $idSala = input('post', 'id_sala', 'integer');
 $data = input('post', 'data', 'date');
 $horaInicio = input('post', 'hora_inicio', 'time');
 $horaTermino = input('post', 'hora_termino', 'time');
+$curso = input('post', 'curso');
 $turma = input('post', 'turma');
 $uc = input('post', 'uc');
 $justificativa = input('post', 'justificativa');
@@ -17,6 +18,7 @@ if (
     and !empty($data)
     and !empty($horaInicio)
     and !empty($horaTermino)
+    and !empty($curso)
     and !empty($turma)
     and !empty($uc)
     and !empty($justificativa)
@@ -56,6 +58,7 @@ if (
         'data' => $data,
         'hora_inicio' => $horaInicio,
         'hora_termino' => $horaTermino,
+        'curso' => $curso,
         'turma' => $turma,
         'uc' => $uc,
         'justificativa' => $justificativa,

@@ -229,7 +229,7 @@ function responseJson(array $content, int $code = 200): void
     echo json_encode($content);
 }
 
-function sendEmail(array $to, string $subject, string $message): bool 
+function sendMail(array $to, string $subject, string $message): bool 
 {
     $mail = new PHPMailer\PHPMailer\PHPMailer(true);
 
@@ -265,4 +265,25 @@ function sendEmail(array $to, string $subject, string $message): bool
     } catch (PHPMailer\PHPMailer\Exception $error) {
         return false;
     }
+}
+
+function mailContent(string $dirFile, array $data = []): string
+{
+    $content = file_get_contents("./app/views/mail/{$dirFile}.php");
+
+    foreach ($data as $key => $value) {
+        $content = str_replace('{$'.$key.'}', $value, $content);
+    }
+
+    return "
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='UTF-8'>
+        </head>
+        <body>
+            {$content}
+        </body>
+        </html>
+    ";
 }

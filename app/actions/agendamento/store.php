@@ -6,6 +6,7 @@ $idSala = input('post', 'id_sala', 'integer');
 $data = input('post', 'data', 'date');
 $horaInicio = input('post', 'hora_inicio', 'time');
 $horaTermino = input('post', 'hora_termino', 'time');
+$curso = input('post', 'curso');
 $turma = input('post', 'turma');
 $uc = input('post', 'uc');
 $justificativa = input('post', 'justificativa');
@@ -15,6 +16,7 @@ if (
     and !empty($data)
     and !empty($horaInicio)
     and !empty($horaTermino)
+    and !empty($curso)
     and !empty($turma)
     and !empty($uc)
     and !empty($justificativa)
@@ -54,16 +56,35 @@ if (
         'data' => $data,
         'hora_inicio' => $horaInicio,
         'hora_termino' => $horaTermino,
+        'curso' => $curso,
         'turma' => $turma,
         'uc' => $uc,
         'justificativa' => $justificativa,
         'situacao' => 'Aguardando Confirmação',
-        'id_usuario' => getSession()['auth']['id'],
+        'id_orientador' => getSession()['auth']['id'],
         'criado_em' => date('Y-m-d H:i:s')
     ]);
 
     if ($result !== false) {
         clearInputs();
+
+        $gestores = DB::query('SELECT nome AS name, email FROM usuario WHERE id_perfil = 2 AND id_unidade = :idUnidade AND excluido_em IS NULL', [
+            ':idUnidade' => getSession()['auth']['id_unidade']
+        ])->fetchAll(PDO::FETCH_ASSOC);
+
+        $sala = getSala($idSala);
+        sendMail($gestores, 'Solicitação de Agendamento do(a) '.$sala->nome, mailContent('agendamento/create', [
+            'nomeOrientador' => getSession()['auth']['nome'],
+            'nomeSala' => $sala->nome,
+            'curso' => $curso, 
+            'turma' => $turma, 
+            'uc' => $uc,
+            'data' => date('d/m/Y', strtotime($data)),    
+            'horaInicio' => date('H:i', strtotime($horaInicio)),
+            'horaTermino' => date('H:i', strtotime($horaTermino)),
+            'justificativa' => $justificativa
+        ]));
+
         redirect('agendamento/cadastrar', [
             'success' => 'Cadastro realizado com sucesso!'
         ]);

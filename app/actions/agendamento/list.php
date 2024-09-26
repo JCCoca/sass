@@ -8,13 +8,15 @@ $dataTable
     ->select('
         agendamento.*, 
         sala.nome AS nome_sala,
-        usuario.nome AS nome_usuario
+        orientador.nome AS nome_orientador,
+        gestor.nome AS nome_gestor
     ')
     ->join('sala', 'agendamento.id_sala', '=', 'sala.id')
-    ->join('usuario', 'agendamento.id_usuario', '=', 'usuario.id');
+    ->join('usuario AS orientador', 'agendamento.id_orientador', '=', 'orientador.id')
+    ->leftJoin('usuario AS gestor', 'agendamento.id_gestor', '=', 'gestor.id');
 
 if (isOrientador()) {
-    $dataTable->where('id_usuario', '=', getSession()['auth']['id']);
+    $dataTable->where('id_orientador', '=', getSession()['auth']['id']);
 }
 
 $dataTable->formatData(function($data){
@@ -23,13 +25,15 @@ $dataTable->formatData(function($data){
         'data' => date('d/m/Y', strtotime($data->data)),
         'hora_inicio' => date('H:i', strtotime($data->hora_inicio)),
         'hora_termino' => date('H:i', strtotime($data->hora_termino)),
+        'curso' => $data->curso,
         'turma' => $data->turma,
         'uc' => $data->uc,
         'justificativa' => $data->justificativa,
         'situacao' => $data->situacao,
+        'justificativa_recusa' => $data->justificativa_recusa,
         'nome_sala' => $data->nome_sala,
-        'nome_usuario' => $data->nome_usuario,
-        
+        'nome_orientador' => $data->nome_orientador,
+        'nome_gestor' => $data->nome_gestor
     ];
 
     if ($data->situacao === 'Aguardando Confirmação') {

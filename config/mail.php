@@ -1,7 +1,7 @@
 <?php 
 
 // Nome do usuário do e-mail
-define('MAIL_USERNAME', 'Não Responda');
+define('MAIL_USERNAME', 'Não Responda | '.APP_NAME);
 
 // Configurações de conexão com provedor de e-mail
 define('MAIL_DEBUG', false);

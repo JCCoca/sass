@@ -149,7 +149,7 @@
     <hr>
 
     <div class="form-row">
-        <div class="col-md-6">
+        <div class="col-lg-4 col-md-6">
             <div class="form-group">
                 <label for="turma">
                     Turma<span class="text-danger">*</span>
@@ -165,7 +165,23 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-lg-4 col-md-6">
+            <div class="form-group">
+                <label for="curso">
+                    Curso<span class="text-danger">*</span>
+                </label>
+                <input 
+                    type="text" 
+                    name="curso" 
+                    id="curso" 
+                    class="form-control" 
+                    value="<?= $input['curso'] ?? $agendamento->curso ?? ''; ?>" 
+                    required
+                >
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
             <div class="form-group">
                 <label for="uc">
                     UC<span class="text-danger">*</span>

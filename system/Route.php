@@ -7,19 +7,21 @@ class Route
         'POST' => []
     ];
 
-    public static function setGet(string $route, string $file, string $access = 'public'): void
+    public static function setGet(string $route, string $file, string $access = 'public', ?object $permission = null): void
     {
         self::$ROUTES['GET'][$route] = [
             'file' => $file,
-            'access' => $access // public | auth | guest
+            'access' => $access, // public | auth | guest
+            'permission' => $permission
         ];
     }
 
-    public static function setPost(string $route, string $file, string $access = 'public'): void
+    public static function setPost(string $route, string $file, string $access = 'public', ?object $permission = null): void
     {
         self::$ROUTES['POST'][$route] = [
             'file' => $file,
-            'access' => $access // public | auth | guest
+            'access' => $access, // public | auth | guest
+            'permission' => $permission
         ];
     }
 
@@ -48,7 +50,7 @@ class Route
         return self::$ROUTES[$_SERVER['REQUEST_METHOD']][$page]['file'];
     }
 
-    public static function hasPermission(?string $page = null): bool 
+    public static function hasAccess(?string $page = null): bool 
     {
         $page = $page ?? self::getPage();
 
@@ -60,5 +62,14 @@ class Route
             default:
                 return true;
         }
+    }
+
+    public static function hasPermission(?string $page = null): bool 
+    {
+        $page = $page ?? self::getPage();
+
+        $permission = self::$ROUTES[$_SERVER['REQUEST_METHOD']][$page]['permission'];
+
+        return ($permission === null) ? true : $permission();
     }
 }

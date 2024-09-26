@@ -10,8 +10,12 @@ ob_start();
 
 try {
     if (Route::existsPage()) {
-        if (Route::hasPermission()) {
-            require_once Route::getPageFile();
+        if (Route::hasAccess()) {
+            if (Route::hasPermission()) {
+                require_once Route::getPageFile();
+            } else {
+                show401();
+            }
         } else {
             redirect('login');
         }

@@ -1,7 +1,9 @@
 <?php 
 
-    $salas = DB::query('SELECT * FROM sala WHERE excluido_em IS NULL AND situacao = "Disponível" ORDER BY nome ASC')->fetchAll();
+    $input = getInputs()['POST'];
+    clearInputs();
 
+    $salas = DB::query('SELECT * FROM sala WHERE excluido_em IS NULL AND situacao = "Disponível" ORDER BY nome ASC')->fetchAll();
 ?>
 
 <?php component('alert-message'); ?>
@@ -76,14 +78,20 @@
                 <select name="id_sala" id="id-sala" class="form-control" required>
                     <option value="">Selecione um</option>
                     <?php foreach ($salas as $sala): ?>
-                        <option 
-                            value="<?= $sala->id; ?>" 
-                            <?= ($sala->id === ($agendamento->id_sala ?? null)) ? 'selected' : ''; ?>
-                        >
+                        <option value="<?= $sala->id; ?>">
                             <?= $sala->nome; ?>
                         </option>
                     <?php endforeach ?>
                 </select>
+
+                <script>
+                    $(function(){
+                        setTimeout(() => {
+                            $('#id-sala').val('<?= ($input['id_sala'] ?? $agendamento->id_sala ?? null); ?>');
+                            $('#id-sala').change();
+                        }, 100);
+                    });
+                </script>
             </div>
         </div>
     </div>
@@ -99,7 +107,7 @@
                     name="data" 
                     id="data" 
                     class="form-control" 
-                    value="<?= $agendamento->data ?? ''; ?>" 
+                    value="<?= $input['data'] ?? $agendamento->data ?? ''; ?>" 
                     required
                 >
             </div>
@@ -115,7 +123,7 @@
                     name="hora_inicio" 
                     id="hora-inicio" 
                     class="form-control" 
-                    value="<?= isset($agendamento->hora_inicio) ? date('H:i', strtotime($agendamento->hora_inicio)) : ''; ?>" 
+                    value="<?= $input['hora_inicio'] ?? (isset($agendamento->hora_inicio) ? date('H:i', strtotime($agendamento->hora_inicio)) : ''); ?>" 
                     required
                 >
             </div>
@@ -131,7 +139,7 @@
                     name="hora_termino" 
                     id="hora-termino" 
                     class="form-control" 
-                    value="<?= isset($agendamento->hora_termino) ? date('H:i', strtotime($agendamento->hora_termino)) : ''; ?>" 
+                    value="<?= $input['hora_termino'] ?? (isset($agendamento->hora_termino) ? date('H:i', strtotime($agendamento->hora_termino)) : ''); ?>" 
                     required
                 >
             </div>
@@ -151,7 +159,7 @@
                     name="turma" 
                     id="turma" 
                     class="form-control" 
-                    value="<?= $agendamento->turma ?? ''; ?>" 
+                    value="<?= $input['turma'] ?? $agendamento->turma ?? ''; ?>" 
                     required
                 >
             </div>
@@ -167,7 +175,7 @@
                     name="uc" 
                     id="uc" 
                     class="form-control" 
-                    value="<?= $agendamento->uc ?? ''; ?>" 
+                    value="<?= $input['uc'] ?? $agendamento->uc ?? ''; ?>" 
                     required
                 >
             </div>
@@ -184,7 +192,7 @@
             class="form-control" 
             rows="6" 
             required
-        ><?= $agendamento->justificativa ?? ''; ?></textarea>
+        ><?= $input['justificativa'] ?? $agendamento->justificativa ?? ''; ?></textarea>
     </div>
     
     <button type="submit" class="btn btn-primary btn-icon-split">

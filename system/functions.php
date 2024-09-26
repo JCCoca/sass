@@ -209,6 +209,11 @@ function saveInputs(): void
     ]);
 }
 
+function getInputs(): array 
+{
+    return getSession()['INPUTS'];
+}
+
 function clearInputs(): void
 {
     setSession('INPUTS', [

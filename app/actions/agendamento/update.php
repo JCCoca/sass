@@ -1,5 +1,7 @@
 <?php
 
+saveInputs();
+
 $id = input('get', 'id', 'integer');
 $idSala = input('post', 'id_sala', 'integer');
 $data = input('post', 'data', 'date');
@@ -58,6 +60,7 @@ if (
     ]);
 
     if ($result !== false) {
+        clearInputs();
         redirect('agendamento/editar', [
             'id' => $id,
             'success' => 'Edição realizada com sucesso!'

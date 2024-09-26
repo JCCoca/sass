@@ -1,5 +1,7 @@
 <?php
 
+saveInputs();
+
 $idSala = input('post', 'id_sala', 'integer');
 $data = input('post', 'data', 'date');
 $horaInicio = input('post', 'hora_inicio', 'time');
@@ -55,6 +57,7 @@ if (
     ]);
 
     if ($result !== false) {
+        clearInputs();
         redirect('agendamento/cadastrar', [
             'success' => 'Cadastro realizado com sucesso!'
         ]);

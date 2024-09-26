@@ -24,6 +24,8 @@ if (!empty($email) and !empty($senha)) {
                 'id_unidade' => !empty($usuario->id_unidade) ? intval($usuario->id_unidade) : null
             ]);
 
+            clearInputs();
+            
             redirect('');
         }
     }

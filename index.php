@@ -1,5 +1,12 @@
 <?php
 
+global $_ENV;
+
+$_ENV = [];
+if (file_exists('.env') == true) {
+    $_ENV = parse_ini_file('.env', false, INI_SCANNER_TYPED);
+}
+
 require_once 'config/app.php';
 require_once 'system/autoload.php';
 require_once 'vendor/autoload.php';

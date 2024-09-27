@@ -1,10 +1,10 @@
 <?php 
 
 // Defini o nome da aplicação
-define('APP_NAME', 'Sistema de Agendamento de Sala');
+define('APP_NAME', $_ENV['APP_NAME'] ?? 'Sistema de Agendamento de Sala');
 
 // Defini se aplicação está em modo de debug
-define('APP_DEBUG', true);
+define('APP_DEBUG', $_ENV['APP_NAME'] ?? true);
 
 // Defini os tipos de erros da aplicação
 if (APP_DEBUG) {

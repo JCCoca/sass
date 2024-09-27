@@ -82,3 +82,29 @@ function getAgendamento(int $id): object
 
     return $data;
 }
+
+function verificaDisponibilidadeSala(int $idSala, string $data, string $horaInicio, string $horaTermino): bool
+{
+    $chave = getdate(strtotime($data))['weekday'];
+
+    $disponibilidade = DB::query('
+        SELECT
+            COUNT(*) AS total
+        FROM sala 
+        LEFT JOIN disponibilidade_sala ON disponibilidade_sala.id_sala = sala.id 
+        LEFT JOIN dia_semana ON disponibilidade_sala.id_dia_semana = dia_semana.id
+        WHERE 
+            sala.id = :idSala
+            AND sala.excluido_em IS NULL 
+            AND dia_semana.chave = :chave
+            AND TIME_TO_SEC(disponibilidade_sala.hora_inicio) <= TIME_TO_SEC(:horaInicio)
+            AND TIME_TO_SEC(disponibilidade_sala.hora_termino) >= TIME_TO_SEC(:horaTermino)
+    ', [
+        ':idSala' => $idSala,
+        ':chave' => $chave,
+        ':horaInicio' => $horaInicio,
+        ':horaTermino' => $horaTermino
+    ])->fetch(); 
+
+    return $disponibilidade->total > 0 ? true : false;
+}

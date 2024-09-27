@@ -24,32 +24,43 @@ if (
     and !empty($justificativa)
 ) {
     if (strtotime($data) < strtotime(date('Y-m-d'))) {
-        redirect('agendamento/cadastrar', [
+        redirect('agendamento/editar', [
+            'id' => $id,
             'error' => 'A data de agendamento não pode ser anterior à data atual!'
         ]);
     }
 
     if (strtotime($data) > strtotime('+30 day', strtotime(date('Y-m-d')))) {
-        redirect('agendamento/cadastrar', [
+        redirect('agendamento/editar', [
+            'id' => $id,
             'error' => 'A data do agendamento não pode exceder 30 dias a partir de hoje!'
         ]);
     }
 
     if (strtotime($horaInicio) >= strtotime($horaTermino)) {
-        redirect('agendamento/cadastrar', [
+        redirect('agendamento/editar', [
+            'id' => $id,
             'error' => 'A hora de início deve ser menor que a de término!'
         ]);
     }
 
     if ((strtotime($data.' '.$horaInicio) - strtotime(date('Y-m-d H:i'))) < 3600) {
-        redirect('agendamento/cadastrar', [
+        redirect('agendamento/editar', [
+            'id' => $id,
             'error' => 'Agendamento requer no mínimo uma hora de antecedência!'
         ]);
     }
 
     if ((strtotime($horaTermino) - strtotime($horaInicio)) < 3600) {
-        redirect('agendamento/cadastrar', [
+        redirect('agendamento/editar', [
+            'id' => $id,
             'error' => 'Não é possível agendar uma sala por menos de uma hora!'
+        ]);
+    }
+
+    if (!verificaDisponibilidadeSala($idSala, $data, $horaInicio, $horaTermino)) {
+        redirect('agendamento/editar', [
+            'error' => 'Esta sala não está disponível nesse dia ou horário!'
         ]);
     }
 

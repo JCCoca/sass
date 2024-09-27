@@ -51,6 +51,12 @@ if (
         ]);
     }
 
+    if (!verificaDisponibilidadeSala($idSala, $data, $horaInicio, $horaTermino)) {
+        redirect('agendamento/cadastrar', [
+            'error' => 'Esta sala não está disponível nesse dia ou horário!'
+        ]);
+    }
+
     $result = DB::create('agendamento', [
         'id_sala' => $idSala,
         'data' => $data,

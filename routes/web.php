@@ -127,3 +127,4 @@ Route::setPost('agendamento/confirmar', actions('agendamento/confirm'), 'auth', 
 Route::setPost('agendamento/recusar', actions('agendamento/reject'), 'auth', function(){
     return isGestor();
 });
+Route::setGet('agendamento/obter', actions('agendamento/get'), 'auth');

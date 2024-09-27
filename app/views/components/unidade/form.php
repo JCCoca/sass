@@ -101,8 +101,8 @@
                     data: {
                         id_estado: idEstado
                     }
-                }).then(function(response){
-                    $.each(response.data, function(index, data){
+                }).then((response) => {
+                    $.each(response.data, (index, data) => {
                         $('#id-cidade').append(`<option value="${data.id}" class="cidade">${data.nome}</option>`);
                     });
                 });

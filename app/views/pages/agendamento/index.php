@@ -30,10 +30,6 @@
                     <th class="align-middle text-center">Data</th>
                     <th class="align-middle text-center">Entrada</th>
                     <th class="align-middle text-center">Saída</th>
-                    <th class="align-middle">Turma</th>
-                    <th class="align-middle">Curso</th>
-                    <th class="align-middle">UC</th>
-                    <th class="align-middle">Justificativa</th>
                     <th class="align-middle text-center">Situação</th>
                     <th class="align-middle text-center">Ações</th>
                 </tr>
@@ -49,6 +45,8 @@
     <?php component('modal-confirm-delete', ['message' => 'Você tem certeza que deseja EXCLUIR este agendamento?']); ?>
 <?php endif ?>
 
+<?php component('modal', ['id' => 'modal-detalhamento', 'title' => 'Detalhamento do Agendamento']); ?>
+
 <script>
     $(function(){
         var columns = [];
@@ -58,7 +56,7 @@
                 name: 'orientador.nome',
                 data: 'nome_orientador',
                 class: 'align-middle',
-                width: '10%'
+                width: '20%'
             });
         <?php endif ?>
 
@@ -71,42 +69,22 @@
             name: 'agendamento.data',
             data: 'data',
             class: 'align-middle text-center',
-            width: '8%'
+            width: '10%'
         }, {
             name: 'agendamento.hora_inicio',
             data: 'hora_inicio',
             class: 'align-middle text-center',
-            width: '8%'
+            width: '10%'
         }, {
             name: 'agendamento.hora_termino',
             data: 'hora_termino',
             class: 'align-middle text-center',
-            width: '8%'
-        }, {
-            name: 'agendamento.turma',
-            data: 'turma',
-            class: 'align-middle',
-            width: '5%'
-        }, {
-            name: 'agendamento.curso',
-            data: 'curso',
-            class: 'align-middle',
             width: '10%'
-        }, {
-            name: 'agendamento.uc',
-            data: 'uc',
-            class: 'align-middle',
-            width: '5%'
-        }, {
-            name: 'agendamento.justificativa',
-            data: 'justificativa',
-            class: 'align-middle',
-            width: '20%'
         }, {
             name: 'agendamento.situacao',
             data: null,
             class: 'align-middle text-center',
-            width: '15%',
+            width: '10%',
             render(data){ 
                 let color;
                 switch (data.situacao) {
@@ -141,7 +119,15 @@
                             <div class="d-inline-flex">
                                 <button 
                                     type="button" 
-                                    class="btn btn-sm btn-outline-success mr-2"
+                                    class="btn btn-sm btn-outline-primary btn-detalhamento"
+                                    data-id="${data.id}"
+                                >
+                                    <i class="fa-regular fa-magnifying-glass-plus"></i>
+                                </button>
+
+                                <button 
+                                    type="button" 
+                                    class="btn btn-sm btn-outline-success mx-2"
                                     onclick="confirmQuestion('${data.links.confirm}', 'Você tem certeza que deseja APROVAR este agendamento?')"    
                                 >
                                     <i class="fa-regular fa-check"></i>
@@ -159,7 +145,15 @@
                     } else {
                         return `
                             <div class="d-inline-flex">
-                                <button type="button" class="btn btn-sm btn-outline-success mr-2" disabled>
+                                <button 
+                                    type="button" 
+                                    class="btn btn-sm btn-outline-primary btn-detalhamento"
+                                    data-id="${data.id}"
+                                >
+                                    <i class="fa-regular fa-magnifying-glass-plus"></i>
+                                </button>
+
+                                <button type="button" class="btn btn-sm btn-outline-success mx-2" disabled>
                                     <i class="fa-regular fa-check"></i>
                                 </button>
 
@@ -173,7 +167,15 @@
                     if (data.situacao === 'Aguardando Confirmação') {
                         return `
                             <div class="d-inline-flex">
-                                <a href="${data.links.edit}" class="btn btn-sm btn-outline-primary mr-2">
+                                <button 
+                                    type="button" 
+                                    class="btn btn-sm btn-outline-primary btn-detalhamento"
+                                    data-id="${data.id}"
+                                >
+                                    <i class="fa-regular fa-magnifying-glass-plus"></i>
+                                </button>
+
+                                <a href="${data.links.edit}" class="btn btn-sm btn-outline-primary mx-2">
                                     <i class="fa-regular fa-pencil"></i>
                                 </a>
 
@@ -189,7 +191,15 @@
                     } else {
                         return `
                             <div class="d-inline-flex">
-                                <button type="button" class="btn btn-sm btn-outline-primary mr-2" disabled>
+                                <button 
+                                    type="button" 
+                                    class="btn btn-sm btn-outline-primary btn-detalhamento"
+                                    data-id="${data.id}"
+                                >
+                                    <i class="fa-regular fa-magnifying-glass-plus"></i>
+                                </button>
+
+                                <button type="button" class="btn btn-sm btn-outline-primary mx-2" disabled>
                                     <i class="fa-regular fa-pencil"></i>
                                 </button>
 
@@ -206,6 +216,86 @@
         window.tableAgendamento = myDataTable('#table-agendamento', {
             url: `<?= route('agendamento/listar'); ?>`,
             columns: columns
+        });
+
+        $(document).on('click', 'button.btn-detalhamento', (event) => {
+            event.preventDefault();
+
+            let button = $(event.currentTarget);
+            let id = button.data('id');
+
+            $.ajax({
+                url: '<?= route('agendamento/obter'); ?>',
+                method: 'GET',
+                data: {
+                    id: id
+                }
+            }).then((response) => {
+                let agendamento = response.data;
+
+                $('#modal-detalhamento-body').html(`
+                    <table class="table table-sm">
+                        <tr class="thead-light">
+                            <th class="align-middle" style="width: calc(100% / 3);">Orientador</th>
+                            <th class="align-middle" style="width: calc(100% / 3);">Data da Solicitação</th>
+                            <th class="align-middle" style="width: calc(100% / 3);">Sala</th>
+                        </tr>
+                        <tr>
+                            <td class="align-middle"></td>
+                            <td class="align-middle"></td>
+                            <td class="align-middle"></td>
+                        </tr>
+                        <tr class="thead-light">
+                            <th class="align-middle" style="width: calc(100% / 3);">Data</th>
+                            <th class="align-middle" style="width: calc(100% / 3);">Hara Início</th>
+                            <th class="align-middle" style="width: calc(100% / 3);">Hara Término</th>
+                        </tr>
+                        <tr>
+                            <td class="align-middle"></td>
+                            <td class="align-middle"></td>
+                            <td class="align-middle"></td>
+                        </tr>
+                        <tr class="thead-light">
+                            <th class="align-middle" style="width: calc(100% / 3);">Turma</th>
+                            <th class="align-middle" style="width: calc(100% / 3);">Curso</th>
+                            <th class="align-middle" style="width: calc(100% / 3);">UC</th>
+                        </tr>
+                        <tr>
+                            <td class="align-middle"></td>
+                            <td class="align-middle"></td>
+                            <td class="align-middle"></td>
+                        </tr>
+                        <tr class="thead-light">
+                            <th class="align-middle" colspan="3">Situação</th>
+                        </tr>
+                        <tr>
+                            <td class="align-middle" colspan="3"></td>
+                        </tr>
+                        <tr class="thead-light">
+                            <th class="align-middle" colspan="3">Justificativa</th>
+                        </tr>
+                        <tr>
+                            <td class="align-middle" colspan="3"></td>
+                        </tr>
+                        <tr class="thead-light">
+                            <th class="align-middle" colspan="2">Gestor</th>
+                            <th class="align-middle">Data Avalição</th>
+                        </tr>
+                        <tr>
+                            <td class="align-middle" colspan="2"></td>
+                            <td class="align-middle"></td>
+                        </tr>
+                        <tr class="thead-light">
+                            <th class="align-middle" colspan="3">Justificativa da Recusa</th>
+                        </tr>
+                        <tr>
+                            <td class="align-middle" colspan="3"></td>
+                        </tr>
+                    </table>
+                `);
+
+                $('#modal-detalhamento').modal('show');
+            });
         });
     });
 </script>

@@ -1,3 +1,17 @@
+"use strict";
+
+window.JCUtils = {
+	location: "pt-BR",
+	currency: "BRL",
+	charset: "UTF-8",
+	ajaxStart: undefined,
+	ajaxEnd: undefined
+};
+
+String.prototype.stripTags = function(){
+	return this.replace(/<.*?>/g, "");
+};
+
 function time(datetime = null, options=""){
     let result = new Date().getTime();
 

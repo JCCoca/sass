@@ -14,13 +14,9 @@
 
 <h3 class="mb-3">Editar Agendamento</h3>
 
-<div class="card shadow mb-4">
-    <div class="card-body">
-        <?php component('agendamento/form', [
-            'action' => route('agendamento/editar', ['id' => $id]),
-            'agendamento' => $queryAgendamento->fetch()
-        ]); ?>
-    </div>
-</div>
+<?php component('agendamento/form', [
+    'action' => route('agendamento/editar', ['id' => $id]),
+    'agendamento' => $queryAgendamento->fetch()
+]); ?>
 
 <?php layout('admin/footer'); ?>

@@ -87,7 +87,7 @@ function verificaDisponibilidadeSala(int $idSala, string $data, string $horaInic
 {
     $chave = getdate(strtotime($data))['weekday'];
 
-    $disponibilidade = DB::query('
+    $disponibilidade = DB::query("
         SELECT
             COUNT(*) AS total
         FROM sala 
@@ -99,9 +99,36 @@ function verificaDisponibilidadeSala(int $idSala, string $data, string $horaInic
             AND dia_semana.chave = :chave
             AND TIME_TO_SEC(disponibilidade_sala.hora_inicio) <= TIME_TO_SEC(:horaInicio)
             AND TIME_TO_SEC(disponibilidade_sala.hora_termino) >= TIME_TO_SEC(:horaTermino)
-    ', [
+    ", [
         ':idSala' => $idSala,
         ':chave' => $chave,
+        ':horaInicio' => $horaInicio,
+        ':horaTermino' => $horaTermino
+    ])->fetch(); 
+
+    return $disponibilidade->total > 0 ? false : true;
+}
+
+function verificaDisponibilidadeAgendamento(int $idSala, string $data, string $horaInicio, string $horaTermino): bool 
+{
+    $disponibilidade = DB::query("
+        SELECT
+            COUNT(*) AS total
+        FROM agendamento
+        WHERE
+            agendamento.excluido_em IS NULL
+            AND agendamento.situacao = 'Aprovado'
+            AND agendamento.id_sala = :idSala 
+            AND agendamento.data = :data  
+            AND (
+                :horaInicio BETWEEN agendamento.hora_inicio AND agendamento.hora_termino 
+                OR :horaTermino BETWEEN agendamento.hora_inicio AND agendamento.hora_termino 
+                OR agendamento.hora_inicio BETWEEN :horaInicio AND :horaTermino 
+                OR agendamento.hora_termino BETWEEN :horaInicio AND :horaTermino 
+            )
+    ", [
+        ':idSala' => $idSala,
+        ':data' => $data,
         ':horaInicio' => $horaInicio,
         ':horaTermino' => $horaTermino
     ])->fetch(); 

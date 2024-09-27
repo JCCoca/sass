@@ -51,9 +51,15 @@ if (
         ]);
     }
 
-    if (!verificaDisponibilidadeSala($idSala, $data, $horaInicio, $horaTermino)) {
+    if (verificaDisponibilidadeSala($idSala, $data, $horaInicio, $horaTermino)) {
         redirect('agendamento/cadastrar', [
             'error' => 'Esta sala não está disponível nesse dia ou horário!'
+        ]);
+    }
+
+    if (verificaDisponibilidadeAgendamento($idSala, $data, $horaInicio, $horaTermino)) {
+        redirect('agendamento/cadastrar', [
+            'error' => 'Esta sala não está disponível nesse dia e horário, pois já está reservada!'
         ]);
     }
 

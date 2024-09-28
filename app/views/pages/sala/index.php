@@ -23,7 +23,7 @@
                 <tr>
                     <th class="align-middle">Nome</th>
                     <th class="align-middle text-center">Quantidade Máquina</th>
-                    <th class="align-middle">Descricao</th>
+                    <th class="align-middle">Descrição</th>
                     <th class="align-middle">Unidade</th>
                     <th class="align-middle text-center">Situação</th>
                     <th class="align-middle text-center">Ações</th>

@@ -271,7 +271,7 @@
                     parteHtml += `
                         <tr class="thead-light">
                             <th class="align-middle" colspan="2">Gestor</th>
-                            <th class="align-middle">Data Avalição</th>
+                            <th class="align-middle">Data Avaliação</th>
                         </tr>
                         <tr>
                             <td class="align-middle" colspan="2">${agendamento.nome_gestor ?? '<i>Nenhum gestor revisou seu pedido até o momento</i>'}</td>
@@ -305,8 +305,8 @@
                         </tr>
                         <tr class="thead-light">
                             <th class="align-middle" style="width: calc(100% / 3);">Data Agendamento</th>
-                            <th class="align-middle" style="width: calc(100% / 3);">Hara Início</th>
-                            <th class="align-middle" style="width: calc(100% / 3);">Hara Término</th>
+                            <th class="align-middle" style="width: calc(100% / 3);">Hora Início</th>
+                            <th class="align-middle" style="width: calc(100% / 3);">Hora Término</th>
                         </tr>
                         <tr>
                             <td class="align-middle">${date('%d/%m/%Y', time(agendamento.data))}</td>

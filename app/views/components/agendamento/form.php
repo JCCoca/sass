@@ -14,6 +14,7 @@
     ", [
         ':idUnidade' => getSession()['auth']['id_unidade']
     ])->fetchAll();
+    
 ?>
 
 <?php component('alert-message'); ?>

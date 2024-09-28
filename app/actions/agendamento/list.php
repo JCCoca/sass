@@ -2,6 +2,9 @@
 
 require 'app/repositories/DataTableRepository.php';
 
+$situacao = input('get', 'situacao');
+$data = input('get', 'data', 'date');
+
 $dataTable = new DataTableRepository('agendamento');
 
 $dataTable
@@ -17,6 +20,12 @@ $dataTable
 
 if (isOrientador()) {
     $dataTable->where('id_orientador', '=', getSession()['auth']['id']);
+}
+if (!empty($situacao)) {
+    $dataTable->where('agendamento.situacao', '=', $situacao);
+}
+if (!empty($data)) {
+    $dataTable->where('agendamento.data', '>=', $data);
 }
 
 $dataTable->formatData(function($data){

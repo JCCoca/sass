@@ -63,8 +63,13 @@ window.myDataTable = (id, args = {}) => {
     let url = args['url'] ?? window.location.href;
     let dataType = args['dataType'] ?? 'json';
     let data = args['data'] ?? function(){};
+
+    let searching = args['searching'] ?? true;
+    let lengthChange = args['lengthChange'] ?? true;
+    let pageLength = args['pageLength'] ?? 10;
     let columns = args['columns'] ?? [];
     let ordering = args['ordering'] ?? true;
+    let order = args['order'] ?? [[0, 'asc']];
 
     return new DataTable(id, {
         ajax: {
@@ -77,7 +82,11 @@ window.myDataTable = (id, args = {}) => {
                 console.log(response.message);
             }
         },
+        searching: searching,
+        lengthChange: lengthChange,
+        pageLength: pageLength,
         ordering: ordering,
+        order: order,
         columns: columns
     });
 };

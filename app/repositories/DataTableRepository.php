@@ -77,13 +77,13 @@ class DataTableRepository
 
     public function where(string $a, string $comparator, string $b): object
     {
-        $this->where .= " AND {$a} {$comparator} {$b}";
+        $this->where .= " AND {$a} {$comparator} '{$b}'";
         return $this;
     }
 
     public function orWhere(string $a, string $comparator, string $b): object
     {
-        $this->where .= " OR {$a} {$comparator} {$b}";
+        $this->where .= " OR {$a} {$comparator} '{$b}'";
         return $this;
     }
 

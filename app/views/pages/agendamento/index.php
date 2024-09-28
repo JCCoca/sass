@@ -235,7 +235,11 @@
 
         window.tableAgendamento = myDataTable('#table-agendamento', {
             url: `<?= route('agendamento/listar'); ?>`,
-            columns: columns
+            columns: columns,
+            order: {
+                name: 'agendamento.data',
+                dir: 'desc'
+            }
         });
 
         $(document).on('click', 'button.btn-detalhamento', (event) => {

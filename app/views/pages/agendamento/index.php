@@ -114,67 +114,65 @@
             width: '10%',
             render(data){
                 <?php if (isGestor()): ?>
+                    var html = `
+                        <button 
+                            type="button" 
+                            class="btn btn-sm btn-outline-primary btn-detalhamento"
+                            data-id="${data.id}"
+                        >
+                            <i class="fa-regular fa-magnifying-glass-plus"></i>
+                        </button>
+                    `;
+
                     if (data.situacao === 'Aguardando Confirmação') {
-                        return `
-                            <div class="d-inline-flex">
-                                <button 
-                                    type="button" 
-                                    class="btn btn-sm btn-outline-primary btn-detalhamento"
-                                    data-id="${data.id}"
-                                >
-                                    <i class="fa-regular fa-magnifying-glass-plus"></i>
-                                </button>
+                        html += `
+                            <button 
+                                type="button" 
+                                class="btn btn-sm btn-outline-success mx-2"
+                                onclick="confirmQuestion('${data.links.confirm}', 'Você tem certeza que deseja APROVAR este agendamento?')"    
+                            >
+                                <i class="fa-regular fa-check"></i>
+                            </button>
 
-                                <button 
-                                    type="button" 
-                                    class="btn btn-sm btn-outline-success mx-2"
-                                    onclick="confirmQuestion('${data.links.confirm}', 'Você tem certeza que deseja APROVAR este agendamento?')"    
-                                >
-                                    <i class="fa-regular fa-check"></i>
-                                </button>
-
-                                <button 
-                                    type="button" 
-                                    class="btn btn-sm btn-outline-danger"
-                                    onclick="confirmJustification('${data.links.reject}', 'Você tem certeza que deseja RECUSAR este agendamento?')"    
-                                >
-                                    <i class="fa-regular fa-ban"></i>
-                                </button>
-                            </div>
+                            <button 
+                                type="button" 
+                                class="btn btn-sm btn-outline-danger"
+                                onclick="confirmJustification('${data.links.reject}', 'Você tem certeza que deseja RECUSAR este agendamento?')"    
+                            >
+                                <i class="fa-regular fa-ban"></i>
+                            </button>
                         `;
                     } else {
-                        return `
-                            <div class="d-inline-flex">
-                                <button 
-                                    type="button" 
-                                    class="btn btn-sm btn-outline-primary btn-detalhamento"
-                                    data-id="${data.id}"
-                                >
-                                    <i class="fa-regular fa-magnifying-glass-plus"></i>
-                                </button>
+                        html += `
+                            <button type="button" class="btn btn-sm btn-outline-success mx-2" disabled>
+                                <i class="fa-regular fa-check"></i>
+                            </button>
 
-                                <button type="button" class="btn btn-sm btn-outline-success mx-2" disabled>
-                                    <i class="fa-regular fa-check"></i>
-                                </button>
-
-                                <button type="button" class="btn btn-sm btn-outline-danger" disabled>
-                                    <i class="fa-regular fa-ban"></i>
-                                </button>
-                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-danger" disabled>
+                                <i class="fa-regular fa-ban"></i>
+                            </button>
                         `;
                     }
-                <?php else: ?>
-                    if (data.situacao === 'Aguardando Confirmação') {
-                        return `
-                            <div class="d-inline-flex">
-                                <button 
-                                    type="button" 
-                                    class="btn btn-sm btn-outline-primary btn-detalhamento"
-                                    data-id="${data.id}"
-                                >
-                                    <i class="fa-regular fa-magnifying-glass-plus"></i>
-                                </button>
 
+                    return `
+                        <div class="d-inline-flex">
+                            ${html}
+                        </div>
+                    `;
+                <?php else: ?>
+                    var html = `
+                        <button 
+                            type="button" 
+                            class="btn btn-sm btn-outline-primary btn-detalhamento"
+                            data-id="${data.id}"
+                        >
+                            <i class="fa-regular fa-magnifying-glass-plus"></i>
+                        </button>
+                    `;
+
+                    switch (data.situacao) {
+                        case 'Aguardando Confirmação':
+                            html += `
                                 <a href="${data.links.edit}" class="btn btn-sm btn-outline-primary mx-2">
                                     <i class="fa-regular fa-pencil"></i>
                                 </a>
@@ -186,19 +184,35 @@
                                 >
                                     <i class="fa-regular fa-trash-alt"></i>
                                 </button>
-                            </div>
-                        `;
-                    } else {
-                        return `
-                            <div class="d-inline-flex">
-                                <button 
-                                    type="button" 
-                                    class="btn btn-sm btn-outline-primary btn-detalhamento"
-                                    data-id="${data.id}"
-                                >
-                                    <i class="fa-regular fa-magnifying-glass-plus"></i>
+                            `;
+                            break;
+                        case 'Aprovado':
+                            html += `
+                                <button type="button" class="btn btn-sm btn-outline-primary mx-2" disabled>
+                                    <i class="fa-regular fa-pencil"></i>
                                 </button>
+                            `;
 
+                            if (data.links.delete !== null) {
+                                html += `
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-sm btn-outline-danger"
+                                        onclick="confirmDelete('${data.links.delete}')"    
+                                    >
+                                        <i class="fa-regular fa-trash-alt"></i>
+                                    </button>
+                                `;
+                            } else {
+                                html += `
+                                    <button type="button" class="btn btn-sm btn-outline-danger" disabled>
+                                        <i class="fa-regular fa-trash-alt"></i>
+                                    </button>
+                                `;
+                            }
+                            break;
+                        case 'Recusado':
+                            html += `
                                 <button type="button" class="btn btn-sm btn-outline-primary mx-2" disabled>
                                     <i class="fa-regular fa-pencil"></i>
                                 </button>
@@ -206,9 +220,15 @@
                                 <button type="button" class="btn btn-sm btn-outline-danger" disabled>
                                     <i class="fa-regular fa-trash-alt"></i>
                                 </button>
-                            </div>
-                        `;
+                            `;
+                            break;
                     }
+
+                    return `
+                        <div class="d-inline-flex">
+                            ${html}
+                        </div>
+                    `;
                 <?php endif ?>
             }
         });
@@ -233,6 +253,44 @@
             }).then((response) => {
                 let agendamento = response.data;
 
+                let color;
+                switch (agendamento.situacao) {
+                    case 'Aguardando Confirmação':
+                        color = 'warning';
+                        break;
+                    case 'Aprovado':
+                        color = 'success';
+                        break;
+                    case 'Recusado':
+                        color = 'danger';
+                        break;
+                }
+
+                let parteHtml = '';
+                if (agendamento.situacao !== 'Aguardando Confirmação') {
+                    parteHtml += `
+                        <tr class="thead-light">
+                            <th class="align-middle" colspan="2">Gestor</th>
+                            <th class="align-middle">Data Avalição</th>
+                        </tr>
+                        <tr>
+                            <td class="align-middle" colspan="2">${agendamento.nome_gestor ?? '<i>Nenhum gestor revisou seu pedido até o momento</i>'}</td>
+                            <td class="align-middle">${date('%d/%m/%Y %H:%i:%s', time(agendamento.atualizado_em))}</td>
+                        </tr>
+                    `;
+
+                    if (agendamento.situacao === 'Recusado') {
+                        parteHtml += `
+                            <tr class="thead-light">
+                                <th class="align-middle" colspan="3">Justificativa da Recusa</th>
+                            </tr>
+                            <tr>
+                                <td class="align-middle" colspan="3">${agendamento.justificativa_recusa ?? '-'}</td>
+                            </tr>
+                        `;
+                    }
+                }
+
                 $('#modal-detalhamento-body').html(`
                     <table class="table table-sm">
                         <tr class="thead-light">
@@ -241,19 +299,19 @@
                             <th class="align-middle" style="width: calc(100% / 3);">Sala</th>
                         </tr>
                         <tr>
-                            <td class="align-middle"></td>
-                            <td class="align-middle"></td>
-                            <td class="align-middle"></td>
+                            <td class="align-middle">${agendamento.nome_orientador}</td>
+                            <td class="align-middle">${date('%d/%m/%Y %H:%i:%s', time(agendamento.criado_em))}</td>
+                            <td class="align-middle">${agendamento.nome_sala}</td>
                         </tr>
                         <tr class="thead-light">
-                            <th class="align-middle" style="width: calc(100% / 3);">Data</th>
+                            <th class="align-middle" style="width: calc(100% / 3);">Data Agendamento</th>
                             <th class="align-middle" style="width: calc(100% / 3);">Hara Início</th>
                             <th class="align-middle" style="width: calc(100% / 3);">Hara Término</th>
                         </tr>
                         <tr>
-                            <td class="align-middle"></td>
-                            <td class="align-middle"></td>
-                            <td class="align-middle"></td>
+                            <td class="align-middle">${date('%d/%m/%Y', time(agendamento.data))}</td>
+                            <td class="align-middle">${date('%H:%i', time('1970-01-01 '+agendamento.hora_inicio))}</td>
+                            <td class="align-middle">${date('%H:%i', time('1970-01-01 '+agendamento.hora_termino))}</td>
                         </tr>
                         <tr class="thead-light">
                             <th class="align-middle" style="width: calc(100% / 3);">Turma</th>
@@ -261,36 +319,28 @@
                             <th class="align-middle" style="width: calc(100% / 3);">UC</th>
                         </tr>
                         <tr>
-                            <td class="align-middle"></td>
-                            <td class="align-middle"></td>
-                            <td class="align-middle"></td>
+                            <td class="align-middle">${agendamento.turma}</td>
+                            <td class="align-middle">${agendamento.curso}</td>
+                            <td class="align-middle">${agendamento.uc}</td>
                         </tr>
                         <tr class="thead-light">
                             <th class="align-middle" colspan="3">Situação</th>
                         </tr>
                         <tr>
-                            <td class="align-middle" colspan="3"></td>
+                            <td class="align-middle" colspan="3">
+                                <span class="badge badge-pill badge-${color}">
+                                    ${agendamento.situacao}
+                                </span>
+                            </td>
                         </tr>
                         <tr class="thead-light">
                             <th class="align-middle" colspan="3">Justificativa</th>
                         </tr>
                         <tr>
-                            <td class="align-middle" colspan="3"></td>
+                            <td class="align-middle" colspan="3">${agendamento.justificativa}</td>
                         </tr>
-                        <tr class="thead-light">
-                            <th class="align-middle" colspan="2">Gestor</th>
-                            <th class="align-middle">Data Avalição</th>
-                        </tr>
-                        <tr>
-                            <td class="align-middle" colspan="2"></td>
-                            <td class="align-middle"></td>
-                        </tr>
-                        <tr class="thead-light">
-                            <th class="align-middle" colspan="3">Justificativa da Recusa</th>
-                        </tr>
-                        <tr>
-                            <td class="align-middle" colspan="3"></td>
-                        </tr>
+                        
+                        ${parteHtml}
                     </table>
                 `);
 

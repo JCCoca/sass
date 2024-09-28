@@ -36,13 +36,13 @@ $dataTable->formatData(function($data){
         'nome_gestor' => $data->nome_gestor
     ];
 
-    if ($data->situacao === 'Aguardando Confirmação') {
-        if (isOrientador()) {
-            $formatData['links'] = [
-                'edit' => route('agendamento/editar', ['id' => $data->id]),
-                'delete' => route('agendamento/excluir', ['id' => $data->id])
-            ];
-        } else {
+    if (isOrientador()) {
+        $formatData['links'] = [
+            'edit' => ($data->situacao === 'Aguardando Confirmação') ? route('agendamento/editar', ['id' => $data->id]) : null,
+            'delete' => verificaHorarioLimite($data->data.' '.$data->hora_inicio) ? route('agendamento/excluir', ['id' => $data->id]) : null
+        ];
+    } else {
+        if ($data->situacao === 'Aguardando Confirmação') {
             $formatData['links'] = [
                 'confirm' => route('agendamento/confirmar', ['id' => $data->id]),
                 'reject' => route('agendamento/recusar', ['id' => $data->id])

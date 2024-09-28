@@ -135,3 +135,8 @@ function verificaDisponibilidadeAgendamento(int $idSala, string $data, string $h
 
     return $disponibilidade->total > 0 ? true : false;
 }
+
+function verificaHorarioLimite(string $datetime): bool
+{
+    return (strtotime($datetime) - time()) > 3600;
+}

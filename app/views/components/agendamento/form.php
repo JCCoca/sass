@@ -3,7 +3,17 @@
     $input = getInputs()['POST'];
     clearInputs();
 
-    $salas = DB::query('SELECT * FROM sala WHERE excluido_em IS NULL AND situacao = "Disponível" ORDER BY nome ASC')->fetchAll();
+    $salas = DB::query("
+        SELECT * FROM sala 
+        WHERE 
+            excluido_em IS NULL 
+            AND situacao = 'Disponível' 
+            AND id_unidade = :idUnidade
+        ORDER BY 
+            nome ASC
+    ", [
+        ':idUnidade' => getSession()['auth']['id_unidade']
+    ])->fetchAll();
 ?>
 
 <?php component('alert-message'); ?>

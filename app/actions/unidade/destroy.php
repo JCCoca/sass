@@ -11,7 +11,7 @@ if (!empty($id)) {
 
     if ($result !== false) {
         redirect('unidade', [
-            'success' => 'Exclução realizada com sucesso!'
+            'success' => 'Exclusão realizada com sucesso!'
         ]);
     } else {
         redirect('unidade', [

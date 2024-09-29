@@ -11,7 +11,7 @@ if (!empty($id) and !empty($idSala)) {
     if ($result !== false) {
         redirect('sala/detalhar', [
             'id' => $idSala,
-            'success' => 'Exclução realizada com sucesso!'
+            'success' => 'Exclusão realizada com sucesso!'
         ]);
     } else {
         redirect('sala/detalhar', [

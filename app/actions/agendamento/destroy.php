@@ -25,7 +25,7 @@ if (!empty($id)) {
         ]));
 
         redirect('agendamento', [
-            'success' => 'Exclução realizada com sucesso!'
+            'success' => 'Exclusão realizada com sucesso!'
         ]);
     } else {
         redirect('agendamento', [

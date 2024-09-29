@@ -89,6 +89,22 @@ if (
 
     if ($result !== false) {
         clearInputs();
+
+        $gestores = getGestoresUnidade(getSession()['auth']['id_unidade']);
+        $sala = getSala($idSala);
+
+        sendMail($gestores, 'Agendamento Editado - '.$sala->nome, mailContent('agendamento/edit', [
+            'nomeOrientador' => getSession()['auth']['nome'],
+            'nomeSala' => $sala->nome,
+            'curso' => $curso, 
+            'turma' => $turma, 
+            'uc' => $uc,
+            'data' => date('d/m/Y', strtotime($data)),    
+            'horaInicio' => date('H:i', strtotime($horaInicio)),
+            'horaTermino' => date('H:i', strtotime($horaTermino)),
+            'justificativa' => $justificativa
+        ]));
+
         redirect('agendamento/editar', [
             'id' => $id,
             'success' => 'Edição realizada com sucesso!'

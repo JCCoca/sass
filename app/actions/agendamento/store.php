@@ -80,12 +80,10 @@ if (
     if ($result !== false) {
         clearInputs();
 
-        $gestores = DB::query('SELECT nome AS name, email FROM usuario WHERE id_perfil = 2 AND id_unidade = :idUnidade AND excluido_em IS NULL', [
-            ':idUnidade' => getSession()['auth']['id_unidade']
-        ])->fetchAll(PDO::FETCH_ASSOC);
-
+        $gestores = getGestoresUnidade(getSession()['auth']['id_unidade']);
         $sala = getSala($idSala);
-        sendMail($gestores, 'Solicitação de Agendamento do(a) '.$sala->nome, mailContent('agendamento/create', [
+
+        sendMail($gestores, 'Solicitação de Agendamento - '.$sala->nome, mailContent('agendamento/create', [
             'nomeOrientador' => getSession()['auth']['nome'],
             'nomeSala' => $sala->nome,
             'curso' => $curso, 

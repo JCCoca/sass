@@ -30,6 +30,15 @@ function isOrientador(): bool
     return getSession()['auth']['id_perfil'] === 3;
 }
 
+function getGestoresUnidade(int $idUnidade): array
+{
+    $gestores = DB::query('SELECT id, nome AS name, email FROM usuario WHERE id_perfil = 2 AND id_unidade = :idUnidade AND excluido_em IS NULL', [
+        ':idUnidade' => $idUnidade
+    ])->fetchAll(PDO::FETCH_ASSOC);
+
+    return $gestores;
+}
+
 function getSala(int $id): object
 {
     $querySala = DB::query('SELECT * FROM sala WHERE id = :id AND excluido_em IS NULL', [
@@ -73,7 +82,6 @@ function getAgendamento(int $id): object
         LEFT JOIN usuario AS gestor ON agendamento.id_gestor = gestor.id 
         WHERE 
             agendamento.id = :id 
-            AND agendamento.excluido_em IS NULL
     ', [
         ':id' => $id
     ]);

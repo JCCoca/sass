@@ -10,6 +10,20 @@ if (!empty($id)) {
     ]);
 
     if ($result !== false) {
+        $agendamento = getAgendamento($id);
+        $gestores = getGestoresUnidade(getSession()['auth']['id_unidade']);
+
+        sendMail($gestores, 'Agendamento Excluído - '.$agendamento->nome_sala, mailContent('agendamento/destroy', [
+            'nomeOrientador' => $agendamento->nome_orientador,
+            'nomeSala' => $agendamento->nome_sala,
+            'curso' => $agendamento->curso, 
+            'turma' => $agendamento->turma, 
+            'uc' => $agendamento->uc,
+            'data' => date('d/m/Y', strtotime($agendamento->data)),    
+            'horaInicio' => date('H:i', strtotime($agendamento->hora_inicio)),
+            'horaTermino' => date('H:i', strtotime($agendamento->hora_termino))
+        ]));
+
         redirect('agendamento', [
             'success' => 'Exclução realizada com sucesso!'
         ]);

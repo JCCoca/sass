@@ -4,6 +4,7 @@ require 'app/repositories/DataTableRepository.php';
 
 $situacao = input('get', 'situacao');
 $data = input('get', 'data', 'date');
+$idUnidade = input('get', 'id_unidade', 'integer');
 
 $dataTable = new DataTableRepository('agendamento');
 
@@ -18,7 +19,7 @@ $dataTable
     ->join('usuario AS orientador', 'agendamento.id_orientador', '=', 'orientador.id')
     ->leftJoin('usuario AS gestor', 'agendamento.id_gestor', '=', 'gestor.id');
 
-if (isOrientador()) {
+if (isOrientador() and empty($idUnidade)) {
     $dataTable->where('id_orientador', '=', getSession()['auth']['id']);
 }
 if (!empty($situacao)) {
@@ -26,6 +27,9 @@ if (!empty($situacao)) {
 }
 if (!empty($data)) {
     $dataTable->where('agendamento.data', '>=', $data);
+}
+if (!empty($idUnidade)) {
+    $dataTable->where('sala.id_unidade', '=', $idUnidade);
 }
 
 $dataTable->formatData(function($data){

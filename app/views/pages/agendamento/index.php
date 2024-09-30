@@ -176,15 +176,25 @@
                                 <a href="${data.links.edit}" class="btn btn-sm btn-outline-primary mx-2">
                                     <i class="fa-regular fa-pencil"></i>
                                 </a>
-
-                                <button 
-                                    type="button" 
-                                    class="btn btn-sm btn-outline-danger"
-                                    onclick="confirmDelete('${data.links.delete}')"    
-                                >
-                                    <i class="fa-regular fa-trash-alt"></i>
-                                </button>
                             `;
+
+                            if (data.links.delete !== null) {
+                                html += `
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-sm btn-outline-danger"
+                                        onclick="confirmDelete('${data.links.delete}')"    
+                                    >
+                                        <i class="fa-regular fa-trash-alt"></i>
+                                    </button>
+                                `;
+                            } else {
+                                html += `
+                                    <button type="button" class="btn btn-sm btn-outline-danger" disabled>
+                                        <i class="fa-regular fa-trash-alt"></i>
+                                    </button>
+                                `;
+                            }
                             break;
                         case 'Aprovado':
                             html += `

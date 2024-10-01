@@ -24,7 +24,11 @@ try {
                 show401();
             }
         } else {
-            redirect('login');
+            if (isGuest()) {
+                redirect('login');
+            } else {
+                redirect('');
+            }
         }
     } else {
         show404();

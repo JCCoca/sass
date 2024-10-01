@@ -4,7 +4,7 @@
 
     $token = input('get', 'token');
 
-    $queryRedefinicaoSenha = $query = DB::query('SELECT * FROM redefinicao_senha WHERE token = :token', [
+    $queryRedefinicaoSenha = DB::query('SELECT * FROM redefinicao_senha WHERE token = :token', [
         ':token' => $token
     ]);
 

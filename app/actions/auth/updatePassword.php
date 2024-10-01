@@ -6,7 +6,7 @@ if (empty($token)) {
     $email = input('post', 'email', 'email');
     $token = getRandomToken();
 
-    $queryUsuario = $query = DB::query('SELECT * FROM usuario WHERE email = :email AND excluido_em IS NULL', [
+    $queryUsuario = DB::query('SELECT * FROM usuario WHERE email = :email AND excluido_em IS NULL', [
         ':email' => $email
     ]);
 

@@ -30,6 +30,13 @@
                 <span>Agendamento</span>
             </a>
         </li>
+
+        <li class="nav-item <?= $active === 'sala' ? 'active' : '' ?>">
+            <a href="<?= route('sala'); ?>" class="nav-link">
+                <i class="fa-regular fa-screen-users fa-fw"></i>
+                <span>Sala</span>
+            </a>
+        </li>
     <?php endif ?>
 
     <?php if (isGestor()): ?>

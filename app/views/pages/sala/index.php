@@ -26,7 +26,9 @@
                     <th class="align-middle">Descrição</th>
                     <th class="align-middle">Unidade</th>
                     <th class="align-middle text-center">Situação</th>
-                    <th class="align-middle text-center">Ações</th>
+                    <?php if (isGestor()): ?>
+                        <th class="align-middle text-center">Ações</th>
+                    <?php endif ?>
                 </tr>
             </thead>
         </table>
@@ -37,47 +39,48 @@
 
 <script>
     $(function(){
-        window.tableSala = myDataTable('#table-sala', {
-            url: `<?= route('sala/listar'); ?>`,
-            columns: [{
-                name: 'sala.nome',
-                data: null,
-                class: 'align-middle',
-                width: '20%',
-                render(data){
-                    return `<a href="${data.links.detail}">${data.nome}</a>`;
-                }
-            }, {
-                name: 'sala.quantidade_maquina',
-                data: 'quantidade_maquina',
-                class: 'align-middle text-center',
-                width: '15%'
-            }, {
-                name: 'sala.descricao',
-                data: null,
-                class: 'align-middle',
-                width: '20%',
-                render(data){
-                    return data.descricao ?? '-';
-                }
-            }, {
-                name: 'unidade.nome',
-                data: 'nome_unidade',
-                class: 'align-middle',
-                width: '20%'
-            }, {
-                name: 'sala.situacao',
-                data: null,
-                class: 'align-middle text-center',
-                width: '10%',
-                render(data){
-                    return `
-                        <span class="badge badge-pill ${data.situacao === 'Disponível' ? 'badge-success' : 'badge-danger'}">
-                            ${data.situacao}
-                        </span>
-                    `;
-                }
-            }, {
+        var columns = [{
+            name: 'sala.nome',
+            data: null,
+            class: 'align-middle',
+            width: '20%',
+            render(data){
+                return `<a href="${data.links.detail}">${data.nome}</a>`;
+            }
+        }, {
+            name: 'sala.quantidade_maquina',
+            data: 'quantidade_maquina',
+            class: 'align-middle text-center',
+            width: '15%'
+        }, {
+            name: 'sala.descricao',
+            data: null,
+            class: 'align-middle',
+            width: '20%',
+            render(data){
+                return data.descricao ?? '-';
+            }
+        }, {
+            name: 'unidade.nome',
+            data: 'nome_unidade',
+            class: 'align-middle',
+            width: '20%'
+        }, {
+            name: 'sala.situacao',
+            data: null,
+            class: 'align-middle text-center',
+            width: '10%',
+            render(data){
+                return `
+                    <span class="badge badge-pill ${data.situacao === 'Disponível' ? 'badge-success' : 'badge-danger'}">
+                        ${data.situacao}
+                    </span>
+                `;
+            }
+        }];
+
+        <?php if (isGestor()): ?>
+            columns.push({
                 name: null,
                 data: null,
                 searchable: false,
@@ -101,7 +104,12 @@
                         </div>
                     `;
                 }
-            }]
+            });
+        <?php endif ?>
+
+        window.tableSala = myDataTable('#table-sala', {
+            url: `<?= route('sala/listar'); ?>`,
+            columns: columns
         });
     });
 </script>

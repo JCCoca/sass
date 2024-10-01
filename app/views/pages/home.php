@@ -27,7 +27,7 @@
             ':id' => getSession()['auth']['id']
         ])->fetch()->total;
 
-        $totalAgendamentoRecursado = DB::query("
+        $totalAgendamentoRecusado = DB::query("
             SELECT
                 COUNT(*) AS total
             FROM agendamento 
@@ -51,7 +51,7 @@
                                 Agendamentos
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                <?= $totalAgendamentoAguardandoConfirmacao + $totalAgendamentoAprovados + $totalAgendamentoRecursado; ?>
+                                <?= $totalAgendamentoAguardandoConfirmacao + $totalAgendamentoAprovados + $totalAgendamentoRecusado; ?>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -105,10 +105,10 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                Agendamentos Recursados
+                                Agendamentos Recusados
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                <?= $totalAgendamentoRecursado; ?>
+                                <?= $totalAgendamentoRecusado; ?>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -213,7 +213,7 @@
             ':id' => getSession()['auth']['id_unidade']
         ])->fetch()->total;
 
-        $totalAgendamentoRecursado = DB::query("
+        $totalAgendamentoRecusado = DB::query("
             SELECT
                 COUNT(*) AS total
             FROM agendamento
@@ -238,7 +238,7 @@
                                 Agendamentos
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                <?= $totalAgendamentoAguardandoConfirmacao + $totalAgendamentoAprovados + $totalAgendamentoRecursado; ?>
+                                <?= $totalAgendamentoAguardandoConfirmacao + $totalAgendamentoAprovados + $totalAgendamentoRecusado; ?>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -292,10 +292,10 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                Agendamentos Recursados
+                                Agendamentos Recusados
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                <?= $totalAgendamentoRecursado; ?>
+                                <?= $totalAgendamentoRecusado; ?>
                             </div>
                         </div>
                         <div class="col-auto">

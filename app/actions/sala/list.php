@@ -13,19 +13,28 @@ $dataTable
     ->where('id_unidade', '=', getSession()['auth']['id_unidade']);
 
 $dataTable->formatData(function($data){
-    return [
+    $formatData = [
         'id' => $data->id,
         'nome' => $data->nome,
         'quantidade_maquina' => $data->quantidade_maquina,
         'descricao' => $data->descricao,
         'situacao' => $data->situacao,
-        'nome_unidade' => $data->nome_unidade,
-        'links' => [
+        'nome_unidade' => $data->nome_unidade
+    ];
+
+    if (isGestor()) {
+        $formatData['links'] = [
             'detail' => route('sala/detalhar', ['id' => $data->id]),
             'edit' => route('sala/editar', ['id' => $data->id]),
             'delete' => route('sala/excluir', ['id' => $data->id])
-        ],
-    ];
+        ];
+    } else {
+        $formatData['links'] = [
+            'detail' => route('sala/detalhar', ['id' => $data->id])
+        ];
+    }
+
+    return $formatData;
 });
 
 responseJson($dataTable->get());

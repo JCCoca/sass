@@ -56,13 +56,13 @@ Route::setPost('unidade/excluir', actions('unidade/destroy'), 'auth', function()
 });
 
 Route::setGet('sala', pages('sala/index'), 'auth', function(){
-    return isGestor();
+    return isOrientador() || isGestor();
 });
 Route::setGet('sala/listar', actions('sala/list'), 'auth', function(){
-    return isGestor();
+    return isOrientador() || isGestor();
 });
 Route::setGet('sala/detalhar', pages('sala/detail'), 'auth', function(){
-    return isGestor();
+    return isOrientador() || isGestor();
 });
 Route::setGet('sala/cadastrar', pages('sala/create'), 'auth', function(){
     return isGestor();
@@ -82,7 +82,7 @@ Route::setPost('sala/excluir', actions('sala/destroy'), 'auth', function(){
 Route::setGet('sala/obter', actions('sala/get'), 'auth');
 
 Route::setGet('sala/disponibilidade/listar', actions('disponibilidade-sala/list'), 'auth', function(){
-    return isGestor();
+    return isOrientador() || isGestor();
 });
 Route::setGet('sala/disponibilidade/cadastrar', pages('disponibilidade-sala/create'), 'auth', function(){
     return isGestor();

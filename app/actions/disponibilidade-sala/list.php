@@ -19,16 +19,21 @@ $dataTable
 $dataTable->softDelete(false);
 
 $dataTable->formatData(function($data){
-    return [
+    $formatData = [
         'id' => $data->id,
         'hora_inicio' => date('H:i', strtotime($data->hora_inicio)),
         'hora_termino' => date('H:i', strtotime($data->hora_termino)),
-        'nome_dia_semana' => $data->nome_dia_semana,
-        'links' => [
+        'nome_dia_semana' => $data->nome_dia_semana
+    ];
+
+    if (isGestor()) {
+        $formatData['links'] = [
             'edit' => route('sala/disponibilidade/editar', ['id' => $data->id, 'id_sala' => $data->id_sala]),
             'delete' => route('sala/disponibilidade/excluir', ['id' => $data->id, 'id_sala' => $data->id_sala])
-        ],
-    ];
+        ];
+    }
+
+    return $formatData;
 });
 
 responseJson($dataTable->get());

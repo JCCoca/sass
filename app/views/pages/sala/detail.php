@@ -23,12 +23,14 @@
                 </h4>
             </div>
             <div class="col-6 text-right">
-                <a href="<?= route('sala/editar', ['id' => $sala->id, 'back' => 'detail']); ?>" class="btn btn-primary btn-icon-split">
-                    <span class="icon">
-                        <i class="fa-regular fa-pencil"></i> 
-                    </span>
-                    <span class="text">Editar</span>
-                </a>
+                <?php if (isGestor()): ?>
+                    <a href="<?= route('sala/editar', ['id' => $sala->id, 'back' => 'detail']); ?>" class="btn btn-primary btn-icon-split">
+                        <span class="icon">
+                            <i class="fa-regular fa-pencil"></i> 
+                        </span>
+                        <span class="text">Editar</span>
+                    </a>
+                <?php endif ?>
             </div>
         </div>
     </div>
@@ -72,12 +74,14 @@
             </div>
 
             <div class="col-6 text-right">
-                <a href="<?= route('sala/disponibilidade/cadastrar', ['id_sala' => $id]); ?>" class="btn btn-primary btn-icon-split">
-                    <span class="icon">
-                        <i class="fa-regular fa-plus"></i> 
-                    </span>
-                    <span class="text">Adicionar</span>
-                </a>
+                <?php if (isGestor()): ?>
+                    <a href="<?= route('sala/disponibilidade/cadastrar', ['id_sala' => $id]); ?>" class="btn btn-primary btn-icon-split">
+                        <span class="icon">
+                            <i class="fa-regular fa-plus"></i> 
+                        </span>
+                        <span class="text">Adicionar</span>
+                    </a>
+                <?php endif ?>
             </div>
         </div>
     </div>
@@ -90,7 +94,9 @@
                     <th class="align-middle">Dia da Semana</th>
                     <th class="align-middle text-center">Hora Início</th>
                     <th class="align-middle text-center">Hora Término</th>
-                    <th class="align-middle text-center">Ações</th>
+                    <?php if (isGestor()): ?>
+                        <th class="align-middle text-center">Ações</th>
+                    <?php endif ?>
                 </tr>
             </thead>
         </table>
@@ -108,28 +114,25 @@
 
 <script>
     $(function(){
-        window.tableDiponibilidadeSala = myDataTable('#table-disponibilidade-sala', {
-            url: `<?= route('sala/disponibilidade/listar'); ?>`,
-            ordering: false,
-            data: {
-                id_sala: '<?= $id; ?>'
-            },
-            columns: [{
-                name: 'dia_semana.nome',
-                data: 'nome_dia_semana',
-                class: 'align-middle',
-                width: '40%',
-            }, {
-                name: 'disponibilidade_sala.hora_inicio',
-                data: 'hora_inicio',
-                class: 'align-middle text-center',
-                width: '20%'
-            }, {
-                name: 'disponibilidade_sala.hora_termino',
-                data: 'hora_termino',
-                class: 'align-middle text-center',
-                width: '20%'
-            }, {
+        var columns = [{
+            name: 'dia_semana.nome',
+            data: 'nome_dia_semana',
+            class: 'align-middle',
+            width: '40%',
+        }, {
+            name: 'disponibilidade_sala.hora_inicio',
+            data: 'hora_inicio',
+            class: 'align-middle text-center',
+            width: '20%'
+        }, {
+            name: 'disponibilidade_sala.hora_termino',
+            data: 'hora_termino',
+            class: 'align-middle text-center',
+            width: '20%'
+        }];
+
+        <?php if (isGestor()): ?>
+            columns.push({
                 name: null,
                 data: null,
                 searchable: false,
@@ -153,7 +156,16 @@
                         </div>
                     `;
                 }
-            }]
+            });
+        <?php endif ?>
+        
+        window.tableDiponibilidadeSala = myDataTable('#table-disponibilidade-sala', {
+            url: `<?= route('sala/disponibilidade/listar'); ?>`,
+            ordering: false,
+            data: {
+                id_sala: '<?= $id; ?>'
+            },
+            columns: columns
         });
     });
 </script>

@@ -222,6 +222,11 @@ function clearInputs(): void
     ]);
 }
 
+function getRandomToken(): string
+{
+    return bin2hex(random_bytes(32));
+}
+
 function responseJson(array $content, int $code = 200): void
 {
     header('Content-Type: application/json; charset=utf-8');
@@ -288,7 +293,44 @@ function mailContent(string $dirFile, array $data = []): string
     ";
 }
 
-function getRandomToken(): string
+function renderPdf(string $content, string $size = 'A4', string $orientation = 'landscape'): void
 {
-    return bin2hex(random_bytes(32));
+    $dompdf = new Dompdf\Dompdf();
+
+    $dompdf->loadHtml($content);
+    $dompdf->setPaper($size, $orientation);
+    $dompdf->render();
+
+    header('Content-type: application/pdf; charset=utf-8');
+    echo $dompdf->output();
+}
+
+function pdfContent(string $dirFile, string $title = 'PDF', array $data = []): string
+{
+    foreach ($data as $key => $value) {
+        $$key = $value;
+    }
+
+    include_once "./app/views/pdf/{$dirFile}.php";
+
+    $content = ob_get_contents();
+    ob_clean();
+
+    $styles = file_get_contents('./public/assets/css/pdf.css');
+
+    return "
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+            <title>{$title}</title>
+            <style>
+                {$styles}
+            </style>
+        </head>
+        <body>
+            {$content}
+        </body>
+        </html>
+    ";
 }

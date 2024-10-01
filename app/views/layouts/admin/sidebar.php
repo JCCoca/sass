@@ -37,6 +37,15 @@
                 <span>Sala</span>
             </a>
         </li>
+
+        <?php if (isGestor()): ?>
+            <li class="nav-item <?= $active === 'relatorio' ? 'active' : '' ?>">
+                <a href="<?= route('relatorio'); ?>" class="nav-link">
+                    <i class="fa-regular fa-file-pdf fa-fw"></i>
+                    <span>Relatório</span>
+                </a>
+            </li>
+        <?php endif ?>
     <?php endif ?>
 
     <?php if (isAdministrador() or isGestor()): ?>

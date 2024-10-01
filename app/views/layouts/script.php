@@ -11,7 +11,7 @@
     $(function(){
         $('.money').mask("#.##0,00", {reverse: true});
 
-        $('form').on('submit', (event) => {
+        $('form:not([not-loading])').on('submit', (event) => {
             var form = $(this);
             form.find('button[type="submit"]').prop("disabled", true);
 

@@ -103,6 +103,13 @@ Route::setPost('sala/disponibilidade/excluir', actions('disponibilidade-sala/des
     return isGestor();
 });
 
+Route::setGet('relatorio', pages('relatorio/index'), 'auth', function(){
+    return isGestor();
+});
+Route::setGet('relatorio/imprimir', pages('relatorio/print'), 'auth', function(){
+    return isGestor();
+});
+
 Route::setGet('agendamento', pages('agendamento/index'), 'auth', function(){
     return isOrientador() || isGestor();
 });

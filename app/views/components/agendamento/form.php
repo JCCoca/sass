@@ -110,7 +110,7 @@
             <div class="form-row">        
                 <div class="col-lg-4 col-md-6">
                     <div class="form-group">
-                        <label for="nome">
+                        <label for="data">
                             Data<span class="text-danger">*</span>
                         </label>
                         <input 

@@ -312,7 +312,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h5 class="card-title text-primary font-weight-bold mb-0">
-                Agendamentos de Salas Aprovados
+                Agendamentos de Salas Aprovadas
             </h5>
         </div>
         <div class="card-body">

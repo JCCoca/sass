@@ -24,11 +24,25 @@
 
                             <form action="<?= route('authenticate'); ?>" method="POST" class="user">
                                 <div class="form-group">
-                                    <input type="email" name="email" id="email" class="form-control form-control-user" placeholder="E-mail" required>
+                                    <input 
+                                        type="email" 
+                                        name="email" 
+                                        id="email" 
+                                        class="form-control form-control-user" 
+                                        placeholder="E-mail" 
+                                        required
+                                    >
                                 </div>
 
                                 <div class="form-group">
-                                    <input type="password" name="senha" id="senha" class="form-control form-control-user" placeholder="Senha" required>
+                                    <input 
+                                        type="password" 
+                                        name="senha" 
+                                        id="senha" 
+                                        class="form-control form-control-user" 
+                                        placeholder="Senha" 
+                                        required
+                                    >
                                 </div>
 
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
@@ -38,7 +52,9 @@
                                 <hr>
 
                                 <div class="text-center">
-                                    <a href="" class="small">Esqueceu sua senha?</a>
+                                    <a href="<?= route('redefinir-senha'); ?>" class="small">
+                                        Esqueceu sua senha?
+                                    </a>
                                 </div>
                             </form>
 

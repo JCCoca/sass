@@ -15,6 +15,14 @@ CREATE TABLE cidade (
     FOREIGN KEY (id_estado) REFERENCES estado (id)
 );
 
+CREATE TABLE redefinicao_senha (
+    id BIGINT(19) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    token VARCHAR(64) NOT NULL,
+    data_hora_solicitacao DATETIME NOT NULL DEFAULT NOW(),
+    data_hora_redefinicao DATETIME NULL
+);
+
 CREATE TABLE unidade (
     id BIGINT(19) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,

@@ -287,3 +287,8 @@ function mailContent(string $dirFile, array $data = []): string
         </html>
     ";
 }
+
+function getRandomToken(): string
+{
+    return bin2hex(random_bytes(32));
+}

@@ -9,6 +9,9 @@ Route::setGet('logout', actions('auth/logout'), 'auth');
 Route::setGet('alterar-senha', pages('auth/editPassword'), 'auth');
 Route::setPost('alterar-senha', actions('auth/changePassword'), 'auth');
 
+Route::setGet('redefinir-senha', pages('auth/resetPassword'), 'guest');
+Route::setPost('redefinir-senha', actions('auth/updatePassword'), 'guest');
+
 Route::setGet('usuario', pages('usuario/index'), 'auth', function(){
     return isGestor() || isAdministrador();
 });

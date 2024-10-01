@@ -48,7 +48,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Total de Agendamentos
+                                Agendamentos
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                 <?= $totalAgendamentoAguardandoConfirmacao + $totalAgendamentoAprovados + $totalAgendamentoRecursado; ?>
@@ -67,7 +67,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                Total de Agendamentos Aguardando Confirmação
+                                Agendamentos Aguardando Confirmação
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                 <?= $totalAgendamentoAguardandoConfirmacao; ?>
@@ -86,7 +86,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Total de Agendamentos Aprovados
+                                Agendamentos Aprovados
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                 <?= $totalAgendamentoAprovados; ?>
@@ -105,7 +105,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                Total de Agendamentos Recursados
+                                Agendamentos Recursados
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                 <?= $totalAgendamentoRecursado; ?>
@@ -123,7 +123,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h5 class="card-title text-primary font-weight-bold mb-0">
-                Meus Agendamentos Confirmados
+                Meus Agendamentos Aprovados
             </h5>
         </div>
         <div class="card-body">
@@ -188,7 +188,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h5 class="card-title text-primary font-weight-bold mb-0">
-                Agendamentos de Salas
+                Agendamentos de Salas Aprovados
             </h5>
         </div>
         <div class="card-body">

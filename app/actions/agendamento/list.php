@@ -20,7 +20,10 @@ $dataTable
     ->leftJoin('usuario AS gestor', 'agendamento.id_gestor', '=', 'gestor.id');
 
 if (isOrientador() and empty($idUnidade)) {
-    $dataTable->where('id_orientador', '=', getSession()['auth']['id']);
+    $dataTable->where('agendamento.id_orientador', '=', getSession()['auth']['id']);
+}
+if (isGestor()) {
+    $dataTable->where('sala.id_unidade', '=', getSession()['auth']['id_unidade']);
 }
 if (!empty($situacao)) {
     $dataTable->where('agendamento.situacao', '=', $situacao);

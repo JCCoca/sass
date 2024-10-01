@@ -39,29 +39,7 @@
         </li>
     <?php endif ?>
 
-    <?php if (isGestor()): ?>
-        <hr class="sidebar-divider">
-
-        <div class="sidebar-heading">
-            Gestor
-        </div>
-
-        <li class="nav-item <?= $active === 'sala' ? 'active' : '' ?>">
-            <a href="<?= route('sala'); ?>" class="nav-link">
-                <i class="fa-regular fa-screen-users fa-fw"></i>
-                <span>Sala</span>
-            </a>
-        </li>
-
-        <li class="nav-item <?= $active === 'usuario' ? 'active' : '' ?>">
-            <a href="<?= route('usuario'); ?>" class="nav-link">
-                <i class="fa-regular fa-users fa-fw"></i>
-                <span>Usuário</span>
-            </a>
-        </li>
-    <?php endif ?>
-
-    <?php if (isAdministrador()): ?>
+    <?php if (isAdministrador() or isGestor()): ?>
         <hr class="sidebar-divider">
 
         <div class="sidebar-heading">
@@ -75,12 +53,14 @@
             </a>
         </li>
 
-        <li class="nav-item <?= $active === 'unidade' ? 'active' : '' ?>">
-            <a href="<?= route('unidade'); ?>" class="nav-link">
-                <i class="fa-regular fa-building-flag fa-fw"></i>
-                <span>Unidade</span>
-            </a>
-        </li>
+        <?php if (isAdministrador()): ?>
+            <li class="nav-item <?= $active === 'unidade' ? 'active' : '' ?>">
+                <a href="<?= route('unidade'); ?>" class="nav-link">
+                    <i class="fa-regular fa-building-flag fa-fw"></i>
+                    <span>Unidade</span>
+                </a>
+            </li>
+        <?php endif ?>
     <?php endif ?>
 
     <hr class="sidebar-divider d-none d-md-block">

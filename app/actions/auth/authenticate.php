@@ -4,13 +4,9 @@ $email = input('post', 'email', 'email');
 $senha = input('post', 'senha');
 
 if (!empty($email) and !empty($senha)) {
-    $queryUsuario = DB::query('SELECT * FROM usuario WHERE email = :email AND excluido_em IS NULL', [
-        ':email' => $email
-    ]);
+    $usuario = getUsuario($email);
 
-    if ($queryUsuario->rowCount() === 1) {
-        $usuario = $queryUsuario->fetch();
-
+    if ($usuario !== null) {
         if (password_verify($senha, $usuario->senha)) {
             regenerateIdSession();
 
@@ -25,7 +21,7 @@ if (!empty($email) and !empty($senha)) {
             ]);
 
             clearInputs();
-            
+
             redirect('');
         }
     }

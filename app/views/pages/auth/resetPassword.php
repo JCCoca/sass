@@ -4,9 +4,29 @@
 
     $token = input('get', 'token');
 
-    $queryRedefinicaoSenha = DB::query('SELECT * FROM redefinicao_senha WHERE token = :token', [
-        ':token' => $token
-    ]);
+    $redefinicaoSenha = getRedefinicaoSenha($token);
+
+    if ($redefinicaoSenha !== null) {
+        if ($redefinicaoSenha->data_hora_redefinicao !== null) {
+            redirect('redefinir-senha', [
+                'error' => 'Este link de redefinição de senha já foi utilizado!'
+            ]);
+        }
+
+        if (time() - strtotime($redefinicaoSenha->data_hora_solicitacao) > 3600) { 
+            DB::delete('redefinicao_senha', [
+                'id' => $redefinicaoSenha->id
+            ]);
+
+            redirect('redefinir-senha', [
+                'error' => 'Este link já expirou. Solicite um novo para redefinir sua senha!'
+            ]);
+        }
+    } elseif (!empty($token)) {
+        redirect('redefinir-senha', [
+            'error' => 'Link de redefinição de senha inválido!'
+        ]);
+    }
 
 ?>
 
@@ -48,18 +68,44 @@
                                     <button type="submit" class="btn btn-primary btn-user btn-block">
                                         Redefinir senha
                                     </button>
-
-                                    <hr>
-
-                                    <div class="text-center">
-                                        <a href="<?= route('login'); ?>" class="small">
-                                            Acesso ao sistema
-                                        </a>
-                                    </div>
                                 </form>
                             <?php else: ?>
+                                <form action="<?= route('redefinir-senha', ['token' => $token]); ?>" method="POST" autocomplete="off" class="user">
+                                    <div class="form-group">
+                                        <input 
+                                            type="password" 
+                                            name="nova_senha" 
+                                            id="nova-senha" 
+                                            class="form-control form-control-user" 
+                                            placeholder="Nova Senha" 
+                                            required
+                                        >
+                                    </div>
 
+                                    <div class="form-group">
+                                        <input 
+                                            type="password" 
+                                            name="confirmar_nova_senha" 
+                                            id="confirmar-nova-senha" 
+                                            class="form-control form-control-user" 
+                                            placeholder="Confirmar Nova Senha" 
+                                            required
+                                        >
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary btn-user btn-block">
+                                        Alterar senha
+                                    </button>
+                                </form>
                             <?php endif ?>
+
+                            <hr>
+
+                            <div class="text-center">
+                                <a href="<?= route('login'); ?>" class="small">
+                                    Acesso ao sistema
+                                </a>
+                            </div>
 
                             <div class="text-center small mt-3">
                                 <span>Copyright &copy; Senac/AC <?= date('Y'); ?>. Todos os direitos reservados.</span>

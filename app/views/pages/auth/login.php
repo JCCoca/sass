@@ -48,15 +48,15 @@
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
                                     Acessar
                                 </button>
-
-                                <hr>
-
-                                <div class="text-center">
-                                    <a href="<?= route('redefinir-senha'); ?>" class="small">
-                                        Esqueceu sua senha?
-                                    </a>
-                                </div>
                             </form>
+
+                            <hr>
+
+                            <div class="text-center">
+                                <a href="<?= route('redefinir-senha'); ?>" class="small">
+                                    Esqueceu sua senha?
+                                </a>
+                            </div>
 
                             <div class="text-center small mt-3">
                                 <span>Copyright &copy; Senac/AC <?= date('Y'); ?>. Todos os direitos reservados.</span>

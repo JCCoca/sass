@@ -30,18 +30,75 @@ function isOrientador(): bool
     return getSession()['auth']['id_perfil'] === 3;
 }
 
-function getGestoresUnidade(int $idUnidade): array
+function getUsuario(int|string|null $value): ?object 
 {
-    $gestores = DB::query('SELECT id, nome AS name, email FROM usuario WHERE id_perfil = 2 AND id_unidade = :idUnidade AND excluido_em IS NULL', [
-        ':idUnidade' => $idUnidade
-    ])->fetchAll(PDO::FETCH_ASSOC);
+    $queryUsuario = DB::query('
+        SELECT * FROM usuario 
+        WHERE 
+            (
+                id = :value 
+                OR email = :value
+            )
+            AND excluido_em IS NULL
+    ', [
+        ':value' => $value
+    ]);
 
-    return $gestores;
+    if ($queryUsuario->rowCount() === 1) {
+        return $queryUsuario->fetch();
+    } else {
+        return null;
+    }
 }
 
-function getSala(int $id): object
+function getRedefinicaoSenha(?string $token): ?object
 {
-    $querySala = DB::query('SELECT * FROM sala WHERE id = :id AND excluido_em IS NULL', [
+    $queryRedefinicaoSenha = DB::query('
+        SELECT * FROM redefinicao_senha 
+        WHERE 
+            token = :token 
+    ', [
+        ':token' => $token
+    ]);
+
+    if ($queryRedefinicaoSenha->rowCount() === 1) {
+        return $queryRedefinicaoSenha->fetch();
+    } else {
+        return null;
+    }
+}
+
+function getGestoresUnidade(?int $idUnidade): ?array
+{
+    $queryGestores = DB::query('
+        SELECT 
+            id, 
+            nome AS name, 
+            email 
+        FROM usuario 
+        WHERE 
+            id_perfil = 2 
+            AND id_unidade = :idUnidade 
+            AND excluido_em IS NULL
+    ', [
+        ':idUnidade' => $idUnidade
+    ]);
+
+    if ($queryGestores->rowCount() > 0) {
+        return $queryGestores->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        return null;
+    }
+}
+
+function getSala(?int $id): ?object
+{
+    $querySala = DB::query('
+        SELECT * FROM sala 
+        WHERE 
+            id = :id 
+            AND excluido_em IS NULL
+    ', [
         ':id' => $id
     ]);
 
@@ -52,21 +109,25 @@ function getSala(int $id): object
         FROM disponibilidade_sala 
         INNER JOIN dia_semana ON disponibilidade_sala.id_dia_semana = dia_semana.id
         WHERE 
-            id_sala = :id 
+            disponibilidade_sala.id_sala = :id 
         ORDER BY 
-            id_dia_semana ASC, 
-            hora_inicio ASC
+            disponibilidade_sala.id_dia_semana ASC, 
+            disponibilidade_sala.hora_inicio ASC
     ', [
         ':id' => $id
     ]);
+     
+    if ($querySala->rowCount() === 1) {
+        $data = $querySala->fetch();
+        $data->disponibilidades = $queryDisponibilidade->fetchAll();
     
-    $data = $querySala->fetch();
-    $data->disponibilidades = $queryDisponibilidade->fetchAll();
-
-    return $data;
+        return $data;
+    } else {
+        return null;
+    }
 }
 
-function getAgendamento(int $id): object
+function getAgendamento(?int $id): ?object
 {
     $queryAgendamento = DB::query('
         SELECT
@@ -85,17 +146,19 @@ function getAgendamento(int $id): object
     ', [
         ':id' => $id
     ]);
-    
-    $data = $queryAgendamento->fetch();
 
-    return $data;
+    if ($queryAgendamento->rowCount() === 1) {
+        return $queryAgendamento->fetch();
+    } else {
+        return null;
+    }
 }
 
 function verificaDisponibilidadeSala(int $idSala, string $data, string $horaInicio, string $horaTermino): bool
 {
     $chave = getdate(strtotime($data))['weekday'];
 
-    $disponibilidade = DB::query("
+    $disponibilidade = DB::query('
         SELECT
             COUNT(*) AS total
         FROM sala 
@@ -107,7 +170,7 @@ function verificaDisponibilidadeSala(int $idSala, string $data, string $horaInic
             AND dia_semana.chave = :chave
             AND TIME_TO_SEC(disponibilidade_sala.hora_inicio) <= TIME_TO_SEC(:horaInicio)
             AND TIME_TO_SEC(disponibilidade_sala.hora_termino) >= TIME_TO_SEC(:horaTermino)
-    ", [
+    ', [
         ':idSala' => $idSala,
         ':chave' => $chave,
         ':horaInicio' => $horaInicio,

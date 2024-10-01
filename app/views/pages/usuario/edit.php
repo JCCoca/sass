@@ -4,9 +4,9 @@
 
     $id = input('get', 'id', 'integer');
 
-    $queryUsuario = DB::query('SELECT * FROM usuario WHERE id = :id AND excluido_em IS NULL', [':id' => $id]);
+    $usuario = getUsuario($id);
 
-    if (empty($id) or $queryUsuario->rowCount() == 0) {
+    if (empty($id) or $usuario === null) {
         show401();
     }
 
@@ -18,7 +18,7 @@
     <div class="card-body">
         <?php component('usuario/form', [
             'action' => route('usuario/editar', ['id' => $id]),
-            'usuario' => $queryUsuario->fetch(),
+            'usuario' => $usuario,
             'requiredSenha' => false
         ]); ?>
     </div>

@@ -1,22 +1,21 @@
 <?php
 
-$senhaAtual = input('POST', 'senha_atual');
-$novaSenha = input('POST', 'nova_senha');
-$confirmarNovaSenha = input('POST', 'confirmar_nova_senha');
+$senhaAtual = input('post', 'senha_atual');
+$novaSenha = input('post', 'nova_senha');
+$confirmarNovaSenha = input('post', 'confirmar_nova_senha');
 
 if (
     !empty($senhaAtual) 
     and !empty($novaSenha) 
     and !empty($confirmarNovaSenha)
 ) {
-    $auth = $query = DB::query('SELECT * FROM usuario WHERE id = :id', [
-        ':id' => getSession()['auth']['id']
-    ])->fetch();
+    $auth = getUsuario(getSession()['auth']['id']);
 
     if (password_verify($senhaAtual, $auth->senha)) {
         if ($novaSenha === $confirmarNovaSenha) {
             $result = DB::update('usuario', [
-                'senha' =>  password_hash($novaSenha, PASSWORD_BCRYPT)
+                'senha' =>  password_hash($novaSenha, PASSWORD_BCRYPT),
+                'atualizado_em' => date('Y-m-d H:i:s')
             ], [
                 'id' => $auth->id
             ]);

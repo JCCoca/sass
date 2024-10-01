@@ -9,4 +9,5 @@
         Se estiver com problemas para clicar no link "Redefinir Senha", copie e cole a URL abaixo em seu navegador: <br>
         {$link}
     </p>
+    <p>Agradecemos sua atenção.</p>
 </div>

@@ -8,10 +8,10 @@
                 COUNT(*) AS total
             FROM agendamento 
             WHERE 
-                agendamento.excluido_em IS NULL
-                AND agendamento.situacao = 'Aguardando Confirmação' 
-                AND agendamento.id_orientador = :id 
-            ", [
+                excluido_em IS NULL
+                AND situacao = 'Aguardando Confirmação' 
+                AND id_orientador = :id 
+        ", [
             ':id' => getSession()['auth']['id']
         ])->fetch()->total;
             
@@ -20,9 +20,9 @@
                 COUNT(*) AS total
             FROM agendamento 
             WHERE 
-                agendamento.excluido_em IS NULL
-                AND agendamento.situacao = 'Aprovado' 
-                AND agendamento.id_orientador = :id 
+                excluido_em IS NULL
+                AND situacao = 'Aprovado' 
+                AND id_orientador = :id 
         ", [
             ':id' => getSession()['auth']['id']
         ])->fetch()->total;
@@ -32,9 +32,9 @@
                 COUNT(*) AS total
             FROM agendamento 
             WHERE 
-                agendamento.excluido_em IS NULL
-                AND agendamento.situacao = 'Recusado' 
-                AND agendamento.id_orientador = :id 
+                excluido_em IS NULL
+                AND situacao = 'Recusado' 
+                AND id_orientador = :id 
         ", [
             ':id' => getSession()['auth']['id']
         ])->fetch()->total;
@@ -184,6 +184,130 @@
     </script>
 <?php endif ?>
 
+<?php if (isGestor()): ?>
+    <?php 
+
+        $totalAgendamentoAguardandoConfirmacao = DB::query("
+            SELECT
+                COUNT(*) AS total
+            FROM agendamento
+            INNER JOIN sala ON agendamento.id_sala = sala.id 
+            WHERE 
+                agendamento.excluido_em IS NULL
+                AND agendamento.situacao = 'Aguardando Confirmação' 
+                AND sala.id_unidade = :id 
+        ", [
+            ':id' => getSession()['auth']['id_unidade']
+        ])->fetch()->total;
+            
+        $totalAgendamentoAprovados = DB::query("
+            SELECT
+                COUNT(*) AS total
+            FROM agendamento
+            INNER JOIN sala ON agendamento.id_sala = sala.id 
+            WHERE 
+                agendamento.excluido_em IS NULL
+                AND agendamento.situacao = 'Aprovado' 
+                AND sala.id_unidade = :id 
+        ", [
+            ':id' => getSession()['auth']['id_unidade']
+        ])->fetch()->total;
+
+        $totalAgendamentoRecursado = DB::query("
+            SELECT
+                COUNT(*) AS total
+            FROM agendamento
+            INNER JOIN sala ON agendamento.id_sala = sala.id 
+            WHERE 
+                agendamento.excluido_em IS NULL
+                AND agendamento.situacao = 'Recusado' 
+                AND sala.id_unidade = :id 
+        ", [
+            ':id' => getSession()['auth']['id_unidade']
+        ])->fetch()->total;
+        
+    ?>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Agendamentos
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                <?= $totalAgendamentoAguardandoConfirmacao + $totalAgendamentoAprovados + $totalAgendamentoRecursado; ?>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-regular fa-calendar-lines-pen fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Agendamentos Aguardando Confirmação
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                <?= $totalAgendamentoAguardandoConfirmacao; ?>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-regular fa-calendar-clock fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Agendamentos Aprovados
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                <?= $totalAgendamentoAprovados; ?>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-regular fa-calendar-check fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                Agendamentos Recursados
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                <?= $totalAgendamentoRecursado; ?>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-regular fa-calendar-xmark fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif ?>
+
 <?php if (isOrientador() or isGestor()): ?>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -254,6 +378,69 @@
             });
         });
     </script>
+<?php endif ?>
+
+<?php if (isAdministrador()): ?>
+    <?php 
+
+        $totalUnidade = DB::query("
+            SELECT
+                COUNT(*) AS total
+            FROM unidade 
+            WHERE 
+                excluido_em IS NULL
+        ")->fetch()->total;
+            
+        $totalUsuario = DB::query("
+            SELECT
+                COUNT(*) AS total
+            FROM usuario 
+            WHERE 
+                excluido_em IS NULL
+        ")->fetch()->total;
+
+    ?>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Unidades
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                <?= $totalUnidade; ?>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-regular fa-building-flag fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Usuários
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                <?= $totalUsuario; ?>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fa-regular fa-users fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 <?php endif ?>
 
 <?php layout('admin/footer'); ?>

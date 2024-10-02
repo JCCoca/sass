@@ -307,6 +307,8 @@ function renderPdf(string $content, string $size = 'A4', string $orientation = '
 
 function pdfContent(string $dirFile, string $title = 'PDF', array $data = []): string
 {
+    ob_clean();
+
     foreach ($data as $key => $value) {
         $$key = $value;
     }

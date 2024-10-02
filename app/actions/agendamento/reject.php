@@ -38,7 +38,7 @@ if (!empty($id) and !empty($justificativaRecusa)) {
         );
 
         redirect('agendamento', [
-            'success' => 'Agendamento recusado com sucesso!!'
+            'success' => 'Agendamento recusado com sucesso!'
         ]);
     } else {
         redirect('agendamento', [

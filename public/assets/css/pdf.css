@@ -4,7 +4,7 @@
 }
 
 @page {
-    margin: 2rem 1.5rem !important;
+    margin: 30px 20px !important;
 }
 
 body {
@@ -16,7 +16,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    margin-bottom: 1rem;
+    margin-bottom: 15px;
 }
 
 .text-left {
@@ -30,6 +30,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 .text-justify {
     text-align: justify !important;
+}
+
+.box {
+    display: block;
+    width: calc(100% - 20px);
+    background-color: #E5E7EB;
+    padding: 10px;
+    border-radius: 0.35rem;
+    margin-bottom: 1rem;
 }
 
 .table {

@@ -24,7 +24,7 @@
             <thead class="thead-light">
                 <tr>
                     <?php if (isGestor()): ?>
-                        <th class="align-middle">Orientador</th>
+                        <th class="align-middle">Orientador(a)</th>
                     <?php endif ?>
                     <th class="align-middle">Sala</th>
                     <th class="align-middle text-center">Data</th>
@@ -41,10 +41,9 @@
 <?php if (isGestor()): ?>
     <?php component('modal-confirm-question'); ?>
     <?php component('modal-confirm-justification'); ?>
-<?php else: ?>
-    <?php component('modal-confirm-delete', ['message' => 'Você tem certeza que deseja EXCLUIR este agendamento?']); ?>
 <?php endif ?>
 
+<?php component('modal-confirm-delete', ['message' => 'Você tem certeza que deseja EXCLUIR este agendamento?']); ?>
 <?php component('modal', ['id' => 'modal-detalhamento', 'title' => 'Detalhamento do Agendamento']); ?>
 
 <script>
@@ -150,6 +149,24 @@
 
                             <button type="button" class="btn btn-sm btn-outline-danger" disabled>
                                 <i class="fa-regular fa-ban"></i>
+                            </button>
+                        `;
+                    }
+                    
+                    if (data.links.delete !== null) {
+                        html += `
+                            <button 
+                                type="button" 
+                                class="btn btn-sm btn-outline-danger ml-2"
+                                onclick="confirmDelete('${data.links.delete}')"    
+                            >
+                                <i class="fa-regular fa-trash-alt"></i>
+                            </button>
+                        `;
+                    } else {
+                        html += `
+                            <button type="button" class="btn btn-sm btn-outline-danger ml-2" disabled>
+                                <i class="fa-regular fa-trash-alt"></i>
                             </button>
                         `;
                     }

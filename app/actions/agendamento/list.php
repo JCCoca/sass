@@ -55,14 +55,21 @@ $dataTable->formatData(function($data){
     if (isOrientador()) {
         $formatData['links'] = [
             'edit' => ($data->situacao === 'Aguardando Confirmação') ? route('agendamento/editar', ['id' => $data->id]) : null,
-            'delete' => verificaHorarioLimite($data->data.' '.$data->hora_inicio) ? route('agendamento/excluir', ['id' => $data->id]) : null
+            'delete' => 
+                (verificaHorarioLimite($data->data.' '.$data->hora_inicio) and $data->situacao !== 'Recusado') 
+                ? route('agendamento/excluir', ['id' => $data->id]) 
+                : null
         ];
     } else {
+        $formatData['links'] = [];
+        $formatData['links']['delete'] = 
+            (verificaHorarioLimite($data->data.' '.$data->hora_inicio) and $data->situacao !== 'Recusado') 
+            ? route('agendamento/excluir', ['id' => $data->id]) 
+            : null;
+
         if ($data->situacao === 'Aguardando Confirmação') {
-            $formatData['links'] = [
-                'confirm' => route('agendamento/confirmar', ['id' => $data->id]),
-                'reject' => route('agendamento/recusar', ['id' => $data->id])
-            ];
+            $formatData['links']['confirm'] = route('agendamento/confirmar', ['id' => $data->id]);
+            $formatData['links']['reject'] = route('agendamento/recusar', ['id' => $data->id]);
         }
     }
 

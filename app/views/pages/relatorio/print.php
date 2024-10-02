@@ -4,9 +4,15 @@ $idSala = input('get', 'id_sala', 'integer');
 $dataInicio = input('get', 'data_inicio', 'date');
 $dataTermino = input('get', 'data_termino', 'date');
 
+$values = [
+    ':dataInicio' => $dataInicio,
+    ':dataTermino' => $dataTermino
+];
+
 $query = '';
 if (!empty($idSala)) {
-    $query .= " AND agendamento.id_sala = {$idSala}";
+    $query .= " AND agendamento.id_sala = :idSala";
+    $values[':idSala'] = $idSala;
 }
 
 $agendamentos = DB::query("
@@ -25,15 +31,18 @@ $agendamentos = DB::query("
         agendamento.excluido_em IS NULL 
         AND agendamento.situacao = 'Aprovado'
         AND agendamento.data BETWEEN :dataInicio AND :dataTermino 
-        {$query}
-", [
-    ':dataInicio' => $dataInicio,
-    ':dataTermino' => $dataTermino
-])->fetchAll();
+        {$query} 
+    ORDER BY
+        agendamento.data ASC,
+        agendamento.hora_inicio ASC,
+        sala.nome ASC
+", $values)->fetchAll();
 
-renderPdf(pdfContent('relatorio', 'Relatório de Agendamento de Sala', [
+$sala = getSala($idSala);
+
+renderPdf(pdfContent('agendamento/relatorio', 'Relatório de Agendamentos', [
     'agendamentos' => $agendamentos,
-    'idSala' => $idSala,
+    'sala' => $sala,
     'dataInicio' => $dataInicio,
     'dataTermino' => $dataTermino
 ]));

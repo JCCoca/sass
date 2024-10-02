@@ -320,7 +320,7 @@
                 <thead class="thead-light">
                     <tr>
                         <th class="align-middle">Sala</th>
-                        <th class="align-middle">Orientador</th>
+                        <th class="align-middle">Orientador(a)</th>
                         <th class="align-middle text-center">Data</th>
                         <th class="align-middle text-center">Entrada</th>
                         <th class="align-middle text-center">Saída</th>

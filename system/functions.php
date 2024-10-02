@@ -336,3 +336,12 @@ function pdfContent(string $dirFile, string $title = 'PDF', array $data = []): s
         </html>
     ";
 }
+
+function layoutPdf(string $dirFile, array $data = []): void
+{
+    foreach ($data as $key => $value) {
+        $$key = $value;
+    }
+
+    include "./app/views/pdf/layouts/{$dirFile}.php";
+}

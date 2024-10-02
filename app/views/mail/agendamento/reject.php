@@ -6,7 +6,10 @@
         <b>Data:</b> {$data}<br>
         <b>Período:</b> {$horaInicio} às {$horaTermino}
     </p>
-    <p><b>Motivo da recusa:</b> {$justificativaRecusa}</p>
+    <p>
+        <b>Gestor(a):</b> {$nomeGestor} <br>
+        <b>Motivo da recusa:</b> {$justificativaRecusa}
+    </p>
     <p>Pedimos que, se necessário, revise sua solicitação ou entre em contato com a gestão para mais esclarecimentos.</p>
     <p>Agradecemos sua atenção.</p>
 </div>

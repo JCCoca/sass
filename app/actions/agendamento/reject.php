@@ -25,6 +25,7 @@ if (!empty($id) and !empty($justificativaRecusa)) {
             'Agendamento Recusado - '.$agendamento->nome_sala, 
             mailContent('agendamento/reject', [
                 'nomeOrientador' => $agendamento->nome_orientador,
+                'nomeGestor' => $agendamento->nome_gestor,
                 'nomeSala' => $agendamento->nome_sala,
                 'curso' => $agendamento->curso, 
                 'turma' => $agendamento->turma, 

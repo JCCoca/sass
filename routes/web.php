@@ -129,7 +129,7 @@ Route::setPost('agendamento/editar', actions('agendamento/update'), 'auth', func
     return isOrientador();
 });
 Route::setPost('agendamento/excluir', actions('agendamento/destroy'), 'auth', function(){
-    return isOrientador();
+    return isOrientador() || isGestor();
 });
 Route::setPost('agendamento/confirmar', actions('agendamento/confirm'), 'auth', function(){
     return isGestor();
